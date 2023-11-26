@@ -4,7 +4,14 @@
 ## and then attach this [StateMachine] to a [StateOverhead] object.
 class_name StateMachine extends Node
 
-@export var _name_id       : String = "";
+## The name of the current [StateMachine]. This is an unique name identifier so
+## this [StateMachine] may be found and utilized in an externel setting.[br][br]
+##
+## [b]NOTE[/b]: If this id is the same as another [StateMachine]'s in the same
+## [StateOverhead], the id may be changed to be unique. If left empty, the
+## value will default to [code]"blank"[/code].
+@export_placeholder("Machine ID") var _name_id : String;
+
 ## The first [State] this [StateMachine] will run on initialization.[br][br]
 ##
 ## [b]NOTE[/b]: A [StateMachine] is initialized by an attached [StateOverhead] object.
@@ -14,18 +21,21 @@ var _states                : Array[State];
 
 # Initializes this [StateMachine] by giving each attached child [State] a reference
 # to the actor object it belongs to, then enters the default [member starting_state].
-func init(actor : Node, stateOverhead : StateOverhead, machineIdx : int) -> void:
+func init(actor : Node, stateOverhead : StateOverhead) -> void:
 	for child in get_children():
-		child.actor = actor;
-		child.stateOverhead = stateOverhead;
-		child.machineIdx = machineIdx;
-		_states.append(child);
-		
-		child.state_ready();
+		if child is State:
+			child.actor = actor;
+			child.stateOverhead = stateOverhead;
+			child.machine_id = _name_id;
+			_states.append(child);
+			
+			child.state_ready();
 
 	# Initialize to the default state
 	if actor:
 		await actor.ready;
+	
+	assert(starting_state in _states, "ERROR - StateMachine:init - Cannot find starting_state in any of this node's children");
 	_change_state(starting_state);
 
 ## Calls [method State.process_input] on the running [State] in similar usage as
@@ -75,3 +85,18 @@ func change_state(new_state_name: String) -> void:
 
 	_current_state = new_state;
 	_current_state.enter();
+
+## Returns this [StateMachine] object's name identifier.
+func get_id() -> String:
+	return _name_id;
+
+## Returns the ids of all attached [State] objects.
+func get_state_ids() -> Array[String]:
+	var ret : Array[String] = [];
+	for state in _states:
+		ret.append(state.get_state_id());
+	return ret;
+
+## Checks to see if this [StateMachine] has an attached [State] with the given id.
+func has_state(state_id : String) -> bool:
+	return state_id in get_state_ids();

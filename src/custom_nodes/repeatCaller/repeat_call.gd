@@ -1,6 +1,6 @@
 ## A addition [Node] that calls a given method repeatedly over an
 ## interval or an indeterminate amount of time.
-class_name RepeatCaller extends Node
+class_name RepeatCall extends Node
 
 ## Signals a finished calling interval
 signal timeout;
@@ -31,7 +31,7 @@ var _stopped     : bool = false;
 		_update_processing();
 ## The interval, in seconds, that this [Node] will call back the provided method.[br][br]
 ##
-## [b]NOTE[/b]: if [member interval] is equal to [code]0[/code], this
+## [b]NOTE[/b]: If [member interval] is equal to [code]0[/code], this
 ## [Node] will continue until manually stopped. See [method stop].
 @export var interval : float = 1.0:
 	set(val):
@@ -39,7 +39,7 @@ var _stopped     : bool = false;
 		_timer_interval.wait_time = interval;
 ## The delay, in seconds, that this [Node] will wait between method calls.[br][br]
 ##
-## [b]NOTE[/b]: if [member interval] is equal to [code]0[/code], this
+## [b]NOTE[/b]: If [member interval] is equal to [code]0[/code], this
 ## [Node] will not have any delay between function calls.
 @export var delay : float = 0.0:
 	set(val):
@@ -63,13 +63,15 @@ var _stopped     : bool = false;
 
 func _ready() -> void:
 	_timer_interval = Timer.new();
-	_timer_interval.wait_time = interval;
+	if interval > 0:
+		_timer_interval.wait_time = interval;
 	_timer_interval.one_shot = true;
 	_timer_interval.timeout.connect(_timeout);
 	add_child(_timer_interval);
 	
 	_timer_delay = Timer.new();
-	_timer_delay.wait_time = delay;
+	if delay > 0:
+		_timer_delay.wait_time = delay;
 	_timer_delay.one_shot = false;
 	add_child(_timer_delay);
 	
