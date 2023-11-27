@@ -1,6 +1,6 @@
 ## A addition [Node] that calls a given method repeatedly over an
 ## interval or an indeterminate amount of time.
-class_name RepeatCall extends Node
+class_name RepeatCaller extends Node
 
 ## Signals a finished calling interval
 signal timeout;

@@ -5,19 +5,19 @@ class_name State extends Node
 
 ## Easy access to the object, typically a [CharacterBody2D] or [CharacterBody3D], in which this
 ## [State] will affect.
-var actor : Node;
+var _actor : Node;
 ## The main overhead. Access this to access all [StateMachine] objects.[br]This is useful in case
 ## you want to affect the [State] of other [StateMachine], within other [State] objects.
-var stateOverhead: StateOverhead;
+var _stateOverhead: StateOverhead;
 ## The id of the [StateMachine] this [State] is in.
-var machine_id : String;
+var _machine_id : String;
 
 ## The id of the current [State]. This is an unique name identifier so this [State] may be found
 ## and utilized outside of the current [StateMachine].
 func get_id():
 	return "empty";
 
-## The initialization of this [State]. This is called after [member actor] emited signal
+## The initialization of this [State]. This is called after [member _actor] emited signal
 ## [signal Node.ready];
 func state_ready() -> void:
 	pass;

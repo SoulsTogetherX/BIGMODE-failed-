@@ -80,12 +80,16 @@ var _default_rotation_degrees        : float = 0;
 		if _shake_tween && !_shake_tween.is_running():
 			rotation_degrees = val;
 			_default_rotation = deg_to_rad(val);
+## If [member shake_rotation] is [code]true[/code], the camera's shake
+## axes will be impacted by [member default_rotation] and
+## [member default_rotation_degrees].
+@export var shake_rotation_impacted : bool = true;
 
 # Camera shake
-var _shake_tween : Tween;
-var _shaker      : RepeatCaller;
-var _rng         : RandomNumberGenerator = RandomNumberGenerator.new();
-var _stength     : Vector3 = Vector3.ZERO;
+var _shake_tween  : Tween;
+var _shaker       : RepeatCaller;
+var _rng          : RandomNumberGenerator = RandomNumberGenerator.new();
+var _strength     : Vector3 = Vector3.ZERO;
 
 # Camera zoom
 var _zoom_tweem : Tween;
@@ -145,24 +149,27 @@ func update_position(delta : float) -> void:
 ##
 ## [b]NOTE[/b]: For all [Vector3] parameters, [code]x[/code] refers to
 ## the x-axis, [code]y[/code] refers to the y-axis, and [code]z[/code]
-## refers to the angle.
+## refers to the angle.[br][br]
+##
+## [b]NOTE[/b]: Rotation does not work when [member Camera2D.ignore_rotation]
+## is set to [code]true[/code].
 func shake_event(
 				times     : Vector3 = Vector3(0.1, 0.1, 0),
-				stength   : Vector3 = Vector3(5., 5., 0),
+				strength  : Vector3 = Vector3(5., 5., 0),
 				decay_spd : Vector3 = Vector3.ZERO,
 				delay     : float   = 0.0
 				) -> void:
 	_shake_tween.kill();
 	_shake_tween = create_tween().set_parallel();
 	
-	_stength = stength;
+	_strength = strength;
 	
 	if times.x > 0:
-		_shake_tween.tween_property(self, "_stength:x", 0.0, decay_spd.x).set_delay(times.x);
+		_shake_tween.tween_property(self, "_strength:x", 0.0, decay_spd.x).set_delay(times.x);
 	if times.y > 0:
-		_shake_tween.tween_property(self, "_stength:y", 0.0, decay_spd.y).set_delay(times.y);
+		_shake_tween.tween_property(self, "_strength:y", 0.0, decay_spd.y).set_delay(times.y);
 	if times.z > 0:
-		_shake_tween.tween_property(self, "_stength:z", 0.0, decay_spd.z).set_delay(times.z);
+		_shake_tween.tween_property(self, "_strength:z", 0.0, decay_spd.z).set_delay(times.z);
 	_shake_tween.tween_callback(func(): finish_shake.emit());
 	
 	_shaker.interval = max(times.z + decay_spd.z, times.y + decay_spd.y, times.x + decay_spd.x);
@@ -173,12 +180,19 @@ func shake_event(
 func is_shaking() -> bool:
 	return _shake_tween.is_running();
 
+func _adjusted_strength() -> Vector3:
+	
+	return Vector3.ZERO;
+
 func _shake_func() -> void:
 	offset = default_offset + Vector2(
-				_rng.randf_range(-_stength.x, _stength.x),
-				_rng.randf_range(-_stength.y, _stength.y)
+				_rng.randf_range(-_strength.x, _strength.x),
+				_rng.randf_range(-_strength.y, _strength.y)
 				);
-	rotation_degrees = _rng.randf_range(-_stength.z, _stength.z) + _default_rotation_degrees;
+	if shake_rotation_impacted:
+		offset = offset.rotated(_default_rotation);
+	
+	rotation_degrees = _rng.randf_range(-_strength.z, _strength.z) + _default_rotation_degrees;
 
 func _reset_values() -> void:
 	offset           = default_offset;
