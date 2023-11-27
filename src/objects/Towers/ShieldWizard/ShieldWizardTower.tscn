@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://8sfcxddpcp46"]
+
+[ext_resource type="Script" path="res://src/objects/Towers/ShieldWizard/ShieldWizardTower.gd" id="1_6tfu7"]
+[ext_resource type="Texture2D" uid="uid://cani00sl0u13o" path="res://assets/sprites/icon/icon.svg" id="2_e2fx8"]
+
+[node name="SW_Tower" type="Node2D" groups=["ShieldWizard", "Tower"]]
+script = ExtResource("1_6tfu7")
+
+[node name="main" type="Sprite2D" parent="."]
+modulate = Color(0, 0, 1, 1)
+texture = ExtResource("2_e2fx8")

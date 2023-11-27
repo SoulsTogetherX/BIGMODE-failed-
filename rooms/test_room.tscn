@@ -1,15 +1,25 @@
-[gd_scene load_steps=4 format=3 uid="uid://gvirkiccxqe7"]
+[gd_scene load_steps=5 format=3 uid="uid://gvirkiccxqe7"]
 
 [ext_resource type="PackedScene" uid="uid://dthm4qwpxsph" path="res://src/objects/player/player.tscn" id="1_mn4xc"]
-[ext_resource type="PackedScene" uid="uid://cfxpcx7fe4e68" path="res://src/objects/Towers/Tower.tscn" id="2_2mw4u"]
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_wtqdi"]
+[ext_resource type="PackedScene" uid="uid://dm5p3d4yhk5j3" path="res://src/objects/Towers/Empty/EmptyTower.tscn" id="2_ikth5"]
+[ext_resource type="PackedScene" uid="uid://cj3awtc6o1bq4" path="res://src/objects/Towers/ArrowKnight/ArrowKnightTower.tscn" id="3_h20x8"]
+[ext_resource type="PackedScene" uid="uid://8sfcxddpcp46" path="res://src/objects/Towers/ShieldWizard/ShieldWizardTower.tscn" id="3_wncbk"]
 
 [node name="test_room" type="Node2D"]
 
 [node name="player" parent="." instance=ExtResource("1_mn4xc")]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("RectangleShape2D_wtqdi")
+[node name="E_Tower" parent="." instance=ExtResource("2_ikth5")]
+position = Vector2(-48, 48)
+scale = Vector2(0.5, 0.5)
+grid_position = Vector2i(-2, 1)
 
-[node name="Tower" parent="." instance=ExtResource("2_2mw4u")]
+[node name="AK_Tower" parent="." instance=ExtResource("3_h20x8")]
+position = Vector2(-48, -80)
+scale = Vector2(0.5, 0.5)
+grid_position = Vector2i(-2, -3)
+
+[node name="SW_Tower" parent="." instance=ExtResource("3_wncbk")]
+position = Vector2(48, -16)
+scale = Vector2(0.5, 0.5)
+grid_position = Vector2i(1, -1)

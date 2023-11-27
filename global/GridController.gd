@@ -1,6 +1,6 @@
 class_name GridControl extends Node
 
-const      GRID_SIZE : Vector2i   = Vector2i(64, 64);
+const      GRID_SIZE : Vector2i   = Vector2i(32, 32);
 static var WORLD     : Dictionary = {}; # Vector2i   -> Array[GridObject]
 static var POS_INFO  : Dictionary = {}; # GridObject -> Vector2i
 
