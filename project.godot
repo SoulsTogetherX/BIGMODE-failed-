@@ -17,7 +17,8 @@ config/icon="res://assets/sprites/icon/icon.svg"
 
 [autoload]
 
-TimeManager="*res://global/time_manager.gd"
+TimeManager="*res://global/TimeManager.gd"
+GridController="*res://global/GridController.gd"
 
 [input]
 
