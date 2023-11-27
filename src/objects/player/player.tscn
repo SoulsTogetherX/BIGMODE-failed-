@@ -4,3 +4,4 @@
 
 [node name="Player" type="Camera2D"]
 script = ExtResource("6_6q7uy")
+[node name="Sprite2D" type="Sprite2D" parent="."]

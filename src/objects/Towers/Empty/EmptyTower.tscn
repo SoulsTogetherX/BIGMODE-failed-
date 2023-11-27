@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://dm5p3d4yhk5j3"]
+
+[ext_resource type="Script" path="res://src/objects/Towers/Empty/EmptyTower.gd" id="1_g6nvo"]
+[ext_resource type="Texture2D" uid="uid://cani00sl0u13o" path="res://assets/sprites/icon/icon.svg" id="2_wacvf"]
+
+[node name="E_Tower" type="Node2D" groups=["EmptyTower", "Tower"]]
+script = ExtResource("1_g6nvo")
+
+[node name="main" type="Sprite2D" parent="."]
+self_modulate = Color(0, 1, 0, 1)
+texture = ExtResource("2_wacvf")
