@@ -1,8 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://gvirkiccxqe7"]
+[gd_scene load_steps=4 format=3 uid="uid://gvirkiccxqe7"]
 
 [ext_resource type="PackedScene" uid="uid://dthm4qwpxsph" path="res://src/objects/player/player.tscn" id="1_mn4xc"]
-[ext_resource type="Texture2D" uid="uid://cani00sl0u13o" path="res://assets/sprites/icon/icon.svg" id="2_x3ane"]
-[ext_resource type="Script" path="res://src/objects/gridObject/GridObject.gd" id="3_uioas"]
+[ext_resource type="PackedScene" uid="uid://cfxpcx7fe4e68" path="res://src/objects/Towers/Empty/EmptyTowerPlace.tscn" id="2_2mw4u"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_wtqdi"]
 
@@ -13,8 +12,6 @@
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_wtqdi")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(32, 32)
-scale = Vector2(0.5, 0.5)
-texture = ExtResource("2_x3ane")
-script = ExtResource("3_uioas")
+[node name="EmptyTowerPlace" parent="." instance=ExtResource("2_2mw4u")]
+position = Vector2(-32, -32)
+grid_position = Vector2i(-1, -1)
