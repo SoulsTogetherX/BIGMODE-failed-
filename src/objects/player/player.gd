@@ -1,17 +1,19 @@
 @tool
 extends CameraFollow2D
 
-@export var gridController : GridController;
-
 const SPEED = 100;
 
-@onready var player_controller: Node = $PlayerController;
-
 func _ready() -> void:
-	player_controller.change_state(PlayerController.MODE.MAKE);
+	if Engine.is_editor_hint():
+		set_physics_process(false);
 
 func move_position(delta : float, change : Vector2) -> void:
 	update_position_pos(delta, position + change);
 
-func draw_tile() -> void:
-	gridController.draw_tile_at(gridController.get_tile_at(get_global_mouse_position()));
+func _physics_process(delta: float) -> void:
+	var movement : Vector2 = Vector2(Input.get_axis("left", "right"), Input.get_axis("up", "down")).normalized() * SPEED;
+	move_position(delta, movement);
+
+func _input(event: InputEvent) -> void:
+	if event.is_action_pressed("ui_down"):
+		print(GridControl.WORLD)
