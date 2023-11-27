@@ -1,71 +1,75 @@
 [gd_scene load_steps=7 format=3 uid="uid://dthm4qwpxsph"]
 
-[ext_resource type="Script" path="res://src/objects/player/modeAI/PlayerController.gd" id="1_rffeh"]
-[ext_resource type="Script" path="res://src/custom_nodes/state_machine/state_overhead.gd" id="2_0crt0"]
-[ext_resource type="Script" path="res://src/custom_nodes/state_machine/state_machine.gd" id="3_76thx"]
-[ext_resource type="Script" path="res://src/custom_nodes/state_machine/empty_state.gd" id="4_p2dqv"]
-[ext_resource type="Script" path="res://src/objects/player/modeAI/Standard/CameraMove.gd" id="4_rkf38"]
+[ext_resource type="Script" path="res://src/objects/player/modeAI/PlayerController.gd" id="3_gjw0q"]
+[ext_resource type="Script" path="res://src/custom_nodes/state_machine/state_overhead.gd" id="4_b38b6"]
+[ext_resource type="Script" path="res://src/custom_nodes/state_machine/state_machine.gd" id="5_w3uja"]
+[ext_resource type="Script" path="res://src/objects/player/modeAI/Standard/Fly.gd" id="6_6a15w"]
 [ext_resource type="Script" path="res://src/objects/player/player.gd" id="6_6q7uy"]
+[ext_resource type="Script" path="res://src/objects/player/modeAI/Make/SelectTile.gd" id="7_4yex7"]
 
 [node name="Player" type="Camera2D"]
 script = ExtResource("6_6q7uy")
 
-[node name="mode_controller" type="Node" parent="." node_paths=PackedStringArray("_modes")]
-script = ExtResource("1_rffeh")
-_modes = [NodePath("Make"), NodePath("Offense"), NodePath("Defence"), NodePath("Enhance")]
+[node name="PlayerController" type="Node" parent="." node_paths=PackedStringArray("_modes")]
+script = ExtResource("3_gjw0q")
+_modes = [NodePath("MAKE"), NodePath("OFFENSE"), NodePath("DEFENCE"), NodePath("ENHANCE")]
 
-[node name="Make" type="Node" parent="mode_controller" node_paths=PackedStringArray("_actor")]
-process_mode = 4
-script = ExtResource("2_0crt0")
+[node name="MAKE" type="Node" parent="PlayerController" node_paths=PackedStringArray("_actor")]
+script = ExtResource("4_b38b6")
 _usesActor = true
 _actor = NodePath("../..")
 
-[node name="Camera" type="Node" parent="mode_controller/Make" node_paths=PackedStringArray("starting_state")]
-script = ExtResource("3_76thx")
+[node name="Camera" type="Node" parent="PlayerController/MAKE" node_paths=PackedStringArray("starting_state")]
+script = ExtResource("5_w3uja")
 _name_id = "Camera"
-starting_state = NodePath("Fly")
+starting_state = NodePath("fly")
 
-[node name="Fly" type="Node" parent="mode_controller/Make/Camera"]
-script = ExtResource("4_rkf38")
+[node name="fly" type="Node" parent="PlayerController/MAKE/Camera"]
+script = ExtResource("6_6a15w")
 
-[node name="Offense" type="Node" parent="mode_controller" node_paths=PackedStringArray("_actor")]
-process_mode = 4
-script = ExtResource("2_0crt0")
+[node name="Cursor" type="Node" parent="PlayerController/MAKE" node_paths=PackedStringArray("starting_state")]
+script = ExtResource("5_w3uja")
+_name_id = "Camera"
+starting_state = NodePath("Select_Tile")
+
+[node name="Select_Tile" type="Node" parent="PlayerController/MAKE/Cursor"]
+script = ExtResource("7_4yex7")
+
+[node name="OFFENSE" type="Node" parent="PlayerController" node_paths=PackedStringArray("_actor")]
+script = ExtResource("4_b38b6")
 _usesActor = true
 _actor = NodePath("../..")
 
-[node name="Camera" type="Node" parent="mode_controller/Offense" node_paths=PackedStringArray("starting_state")]
-script = ExtResource("3_76thx")
+[node name="Camera" type="Node" parent="PlayerController/OFFENSE" node_paths=PackedStringArray("starting_state")]
+script = ExtResource("5_w3uja")
 _name_id = "Camera"
-starting_state = NodePath("Empty")
+starting_state = NodePath("fly")
 
-[node name="Empty" type="Node" parent="mode_controller/Offense/Camera"]
-script = ExtResource("4_p2dqv")
+[node name="fly" type="Node" parent="PlayerController/OFFENSE/Camera"]
+script = ExtResource("6_6a15w")
 
-[node name="Defence" type="Node" parent="mode_controller" node_paths=PackedStringArray("_actor")]
-process_mode = 4
-script = ExtResource("2_0crt0")
+[node name="DEFENCE" type="Node" parent="PlayerController" node_paths=PackedStringArray("_actor")]
+script = ExtResource("4_b38b6")
 _usesActor = true
 _actor = NodePath("../..")
 
-[node name="Camera" type="Node" parent="mode_controller/Defence" node_paths=PackedStringArray("starting_state")]
-script = ExtResource("3_76thx")
+[node name="Camera" type="Node" parent="PlayerController/DEFENCE" node_paths=PackedStringArray("starting_state")]
+script = ExtResource("5_w3uja")
 _name_id = "Camera"
-starting_state = NodePath("Empty")
+starting_state = NodePath("fly")
 
-[node name="Empty" type="Node" parent="mode_controller/Defence/Camera"]
-script = ExtResource("4_p2dqv")
+[node name="fly" type="Node" parent="PlayerController/DEFENCE/Camera"]
+script = ExtResource("6_6a15w")
 
-[node name="Enhance" type="Node" parent="mode_controller" node_paths=PackedStringArray("_actor")]
-process_mode = 4
-script = ExtResource("2_0crt0")
+[node name="ENHANCE" type="Node" parent="PlayerController" node_paths=PackedStringArray("_actor")]
+script = ExtResource("4_b38b6")
 _usesActor = true
 _actor = NodePath("../..")
 
-[node name="Camera" type="Node" parent="mode_controller/Enhance" node_paths=PackedStringArray("starting_state")]
-script = ExtResource("3_76thx")
+[node name="Camera" type="Node" parent="PlayerController/ENHANCE" node_paths=PackedStringArray("starting_state")]
+script = ExtResource("5_w3uja")
 _name_id = "Camera"
-starting_state = NodePath("Empty")
+starting_state = NodePath("fly")
 
-[node name="Empty" type="Node" parent="mode_controller/Enhance/Camera"]
-script = ExtResource("4_p2dqv")
+[node name="fly" type="Node" parent="PlayerController/ENHANCE/Camera"]
+script = ExtResource("6_6a15w")

@@ -12,6 +12,9 @@ func enter() -> void:
 func exit() -> void:
 	pass;
 
+func draw() -> void:
+	pass;
+
 func process_input(_event: InputEvent) -> State:
 	return null;
 

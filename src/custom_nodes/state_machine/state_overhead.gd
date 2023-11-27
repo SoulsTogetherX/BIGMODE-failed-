@@ -12,6 +12,7 @@ class_name StateOverhead extends Node
 ##
 ## Shown in the editor window when [member _usesActor] is [code]true[/code].
 var _actor;
+var _drawMod;
 var _state_machines : Dictionary;
 
 func _get_property_list():
