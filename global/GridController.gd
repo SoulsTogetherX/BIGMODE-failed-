@@ -16,26 +16,48 @@ static func get_center_at_tile(tile : Vector2i) -> Vector2:
 static func add_to_tile(obj : GridObject, tile : Vector2i) -> void:
 	if WORLD.has(tile):
 		WORLD[tile].append(obj);
+		POS_INFO[obj] = tile;
 		return;
 	WORLD[tile] = [obj];
 
+static func add_to_tile_exclusive(obj : GridObject, tile : Vector2i) -> bool:
+	if WORLD.has(tile) || WORLD[tile] == []:
+		WORLD[tile].append(obj);
+		POS_INFO[obj] = tile;
+		return true;
+	return false;
+
 static func tile_has(obj : GridObject, tile : Vector2i) -> bool:
-	return WORLD.has(tile) && WORLD[tile].has(obj);
+	return POS_INFO.has(obj) && POS_INFO[obj] == tile;
 
 static func remove_from_tile(obj : GridObject, tile : Vector2i) -> GridObject:
 	if WORLD.has(tile):
 		WORLD[tile].erase(obj);
+		POS_INFO.erase(obj);
 		return obj;
 	return null;
 
 static func get_all_from_tile(tile : Vector2i) -> Array[GridObject]:
 	if WORLD.has(tile):
-		return WORLD[tile].values();
+		return WORLD[tile];
 	return [];
+
+static func tile_empty(tile : Vector2i) -> bool:
+	return !WORLD.has(tile) || WORLD[tile].is_empty();
+
+static func tile_size(tile : Vector2i) -> int:
+	if !WORLD.has(tile):
+		return 0;
+	return WORLD[tile].size();
 
 static func clear_tile(tile : Vector2i) -> Array[GridObject]:
 	if WORLD.has(tile):
-		var ret = WORLD[tile].values();
+		var ret = WORLD[tile];
+		for obj in ret:
+			POS_INFO.erase(obj);
 		WORLD[tile].clear();
 		return ret;
 	return [];
+
+static func get_position(obj : GridObject) -> Vector2i:
+	return POS_INFO[obj];

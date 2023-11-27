@@ -16,25 +16,28 @@ func _notification(what):
 			_set_position(GridControl.get_tile_at(global_position));
 
 func _set_position(pos : Vector2i) -> void:
+	set_notify_transform(false);
 	if Engine.is_editor_hint():
-		_change_position(pos);
+		_grid_position = pos;
+		_reset_position();
+		set_notify_transform(true);
 		return;
 	
-	GridControl.remove_from_tile(self, _grid_position);
+	if pos != _grid_position:
+		GridControl.remove_from_tile(self, _grid_position);
+		_grid_position = pos;
+		GridControl.add_to_tile(self, _grid_position);
 	
+	_reset_position();
+	set_notify_transform(true);
+
+func _reset_position() -> void:
 	set_notify_transform(false);
-	_grid_position = pos;
 	global_position = GridControl.get_center_at_tile(_grid_position);
 	set_notify_transform(true);
-	
-	GridControl.add_to_tile(self, _grid_position);
-
-func _change_position(pos : Vector2i) -> void:
-	_grid_position = pos;
-	global_position = GridControl.get_center_at_tile(_grid_position);
 
 func _ready() -> void:
-	_change_position(_grid_position);
+	_reset_position();
 	
 	if snap_runtime || Engine.is_editor_hint():
 		set_notify_transform(true);
