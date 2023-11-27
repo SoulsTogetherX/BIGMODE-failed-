@@ -13,7 +13,10 @@ signal finish_zoom;
 
 @export_group("Follow")
 
-## The [Node2D] this camera will attempt to follow at check update.
+## The [Node2D] this camera will attempt to follow at check update.[br][br]
+## 
+## [b]NOTE[/b]: If this is not set, the camera will rely on given [Vector2]
+## coordinates instead.
 @export var follow : Node2D:
 	set(val):
 		follow = val;
@@ -110,35 +113,46 @@ func _ready() -> void:
 	_shaker.timeout.connect(_reset_values);
 
 func _physics_process(delta: float) -> void:
-	update_position(delta);
+	if follow:
+		update_position(delta);
 
-## Updates the position of the camera, including snapping and easing.[br]
+## Updates the position of the camera, including snapping and easing,
+## towards the assigned [member follow].[br]
 ## This is automatically called every physic_frame when [member auto_follow]
-## is [code]true[/code].[br][br]
+## is [code]true[/code] and [member follow] is not [code]null[/code].[br][br]
 ##
 ## [b]NOTE[/b]: If [param delta] is [code]0[/code] or less, this method will
-## not ease towards [member follow] any this call.
+## not ease towards [member follow] any this call.[br][br]
+##
+## This is a wrapper function for [method update_position_pos].
 func update_position(delta : float) -> void:
 	if !follow:
 		return;
-	
-	var diff_x = position.x - follow.position.x;
-	var diff_y = position.y - follow.position.y;
+	update_position_pos(delta, follow.position);
+
+## Updates the position of the camera, including snapping and easing
+## towards the position given.[br]
+##
+## [b]NOTE[/b]: If [param delta] is [code]0[/code] or less, this method will
+## not ease towards [member follow] any this call.[br][br]
+func update_position_pos(delta : float, pos : Vector2) -> void:
+	var diff_x = position.x - pos.x;
+	var diff_y = position.y - pos.y;
 	
 	# Snap
 	if snap:
 		if abs(diff_x) > max_range.x:
-			position.x = follow.position.x + max_range.x * sign(diff_x);
+			position.x = pos.x + max_range.x * sign(diff_x);
 		if abs(diff_y) > max_range.y:
-			position.y = follow.position.y + max_range.y * sign(diff_y);
+			position.y = pos.y + max_range.y * sign(diff_y);
 	
 	# Smooth Ease
 	if delta > 0:
 		if abs(diff_x) > desired_range.x:
-			var des_pos_x = follow.position.x + desired_range.x * sign(diff_x);
+			var des_pos_x = pos.x + desired_range.x * sign(diff_x);
 			position.x = lerp(position.x, des_pos_x, (axis_lerp.x ** (delta * 100)));
 		if abs(diff_y) > desired_range.y:
-			var des_pos_y = follow.position.y + desired_range.y * sign(diff_y);
+			var des_pos_y = pos.y + desired_range.y * sign(diff_y);
 			position.y = lerp(position.y, des_pos_y, (axis_lerp.y ** (delta * 100)));
 
 ## Starts camera shake.[br]

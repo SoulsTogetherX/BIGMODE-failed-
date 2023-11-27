@@ -1,0 +1,71 @@
+[gd_scene load_steps=7 format=3 uid="uid://dthm4qwpxsph"]
+
+[ext_resource type="Script" path="res://src/objects/player/modeAI/PlayerController.gd" id="1_rffeh"]
+[ext_resource type="Script" path="res://src/custom_nodes/state_machine/state_overhead.gd" id="2_0crt0"]
+[ext_resource type="Script" path="res://src/custom_nodes/state_machine/state_machine.gd" id="3_76thx"]
+[ext_resource type="Script" path="res://src/custom_nodes/state_machine/empty_state.gd" id="4_p2dqv"]
+[ext_resource type="Script" path="res://src/objects/player/modeAI/Standard/CameraMove.gd" id="4_rkf38"]
+[ext_resource type="Script" path="res://src/objects/player/player.gd" id="6_6q7uy"]
+
+[node name="Player" type="Camera2D"]
+script = ExtResource("6_6q7uy")
+
+[node name="mode_controller" type="Node" parent="." node_paths=PackedStringArray("_modes")]
+script = ExtResource("1_rffeh")
+_modes = [NodePath("Make"), NodePath("Offense"), NodePath("Defence"), NodePath("Enhance")]
+
+[node name="Make" type="Node" parent="mode_controller" node_paths=PackedStringArray("_actor")]
+process_mode = 4
+script = ExtResource("2_0crt0")
+_usesActor = true
+_actor = NodePath("../..")
+
+[node name="Camera" type="Node" parent="mode_controller/Make" node_paths=PackedStringArray("starting_state")]
+script = ExtResource("3_76thx")
+_name_id = "Camera"
+starting_state = NodePath("Fly")
+
+[node name="Fly" type="Node" parent="mode_controller/Make/Camera"]
+script = ExtResource("4_rkf38")
+
+[node name="Offense" type="Node" parent="mode_controller" node_paths=PackedStringArray("_actor")]
+process_mode = 4
+script = ExtResource("2_0crt0")
+_usesActor = true
+_actor = NodePath("../..")
+
+[node name="Camera" type="Node" parent="mode_controller/Offense" node_paths=PackedStringArray("starting_state")]
+script = ExtResource("3_76thx")
+_name_id = "Camera"
+starting_state = NodePath("Empty")
+
+[node name="Empty" type="Node" parent="mode_controller/Offense/Camera"]
+script = ExtResource("4_p2dqv")
+
+[node name="Defence" type="Node" parent="mode_controller" node_paths=PackedStringArray("_actor")]
+process_mode = 4
+script = ExtResource("2_0crt0")
+_usesActor = true
+_actor = NodePath("../..")
+
+[node name="Camera" type="Node" parent="mode_controller/Defence" node_paths=PackedStringArray("starting_state")]
+script = ExtResource("3_76thx")
+_name_id = "Camera"
+starting_state = NodePath("Empty")
+
+[node name="Empty" type="Node" parent="mode_controller/Defence/Camera"]
+script = ExtResource("4_p2dqv")
+
+[node name="Enhance" type="Node" parent="mode_controller" node_paths=PackedStringArray("_actor")]
+process_mode = 4
+script = ExtResource("2_0crt0")
+_usesActor = true
+_actor = NodePath("../..")
+
+[node name="Camera" type="Node" parent="mode_controller/Enhance" node_paths=PackedStringArray("starting_state")]
+script = ExtResource("3_76thx")
+_name_id = "Camera"
+starting_state = NodePath("Empty")
+
+[node name="Empty" type="Node" parent="mode_controller/Enhance/Camera"]
+script = ExtResource("4_p2dqv")

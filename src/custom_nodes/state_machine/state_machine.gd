@@ -24,9 +24,9 @@ var _states                : Array[State];
 func init(actor : Node, stateOverhead : StateOverhead) -> void:
 	for child in get_children():
 		if child is State:
-			child.actor = actor;
-			child.stateOverhead = stateOverhead;
-			child.machine_id = _name_id;
+			child._actor = actor;
+			child._stateOverhead = stateOverhead;
+			child._machine_id = _name_id;
 			_states.append(child);
 			
 			child.state_ready();
