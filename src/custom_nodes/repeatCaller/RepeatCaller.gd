@@ -13,14 +13,14 @@ enum RepeatProcessCallback {
 
 var _timer_interval : Timer;
 var _timer_delay : Timer;
-var _stopped     : bool = false;
+var _stopped : bool = false;
 
 ## If this member is set to [code]true[/code], this [Node] will immediately
 ## start it's callbacks.
-@export var autostart    : bool  = false;
+@export var autostart : bool  = false;
 ## If this member is set to [code]true[/code], this [Node] will not process
 ## until unpaused, even if [method start] is called.
-@export var paused       : bool  = false:
+@export var paused : bool  = false:
 	get:
 		return _timer_interval.paused;
 	set(val):
@@ -29,6 +29,11 @@ var _stopped     : bool = false;
 			stop();
 			return;
 		_update_processing();
+## If this member is set to [code]true[/code], this [Node] will ignore
+## [member Engine.time_scale].[br][br]
+##
+## [b]NOTE[/b]: not implemented yet.
+@export var ignore_time_scale : bool  = false;
 ## The interval, in seconds, that this [Node] will call back the provided method.[br][br]
 ##
 ## [b]NOTE[/b]: If [member interval] is equal to [code]0[/code], this
