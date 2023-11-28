@@ -1,11 +1,81 @@
-[gd_scene load_steps=3 format=3 uid="uid://8sfcxddpcp46"]
+[gd_scene load_steps=21 format=3 uid="uid://b5s3rjkie4nco"]
 
 [ext_resource type="Script" path="res://src/objects/Towers/ShieldWizard/ShieldWizardTower.gd" id="1_6tfu7"]
+[ext_resource type="Script" path="res://assets/resources/script/SubResources/DeploymentInfo.gd" id="2_ax3nn"]
 [ext_resource type="Texture2D" uid="uid://cani00sl0u13o" path="res://assets/sprites/icon/icon.svg" id="2_e2fx8"]
+[ext_resource type="Script" path="res://src/Handers/ResourceDistributor.gd" id="2_lbjds"]
+[ext_resource type="Script" path="res://assets/resources/script/SubResources/HealthInfo.gd" id="3_7myt6"]
+[ext_resource type="Script" path="res://src/Handers/RangeHander/RangeHander.gd" id="3_jlu82"]
+[ext_resource type="Script" path="res://assets/resources/script/SubResources/AttackInfo.gd" id="4_dc5h5"]
+[ext_resource type="Script" path="res://src/Handers/RangeHander/Mods/target_finder.gd" id="4_trjkk"]
+[ext_resource type="Script" path="res://src/Handers/RangeHander/Mods/target_priortize.gd" id="5_3fxom"]
+[ext_resource type="PackedScene" uid="uid://dwd6xoankwggj" path="res://src/objects/Projectile/Types/FireProjectile/Fireball.tscn" id="5_af7km"]
+[ext_resource type="Script" path="res://assets/resources/script/SubResources/RangeInfo.gd" id="5_nrl5b"]
+[ext_resource type="Script" path="res://assets/resources/script/TowerInfo.gd" id="6_efbl5"]
+[ext_resource type="Script" path="res://src/Handers/RangeHander/Mods/shooter.gd" id="6_nme6x"]
+[ext_resource type="Script" path="res://src/Handers/HealthHander/HealthHander.gd" id="7_qyydg"]
+[ext_resource type="Script" path="res://src/Handers/DeploymentHander/DeploymentHander.gd" id="8_evk82"]
 
-[node name="SW_Tower" type="Node2D" groups=["ShieldWizard", "Tower"]]
+[sub_resource type="Resource" id="Resource_a6c8a"]
+script = ExtResource("2_ax3nn")
+max_troops = 0
+troop_regeneration = 0
+
+[sub_resource type="Resource" id="Resource_npots"]
+script = ExtResource("3_7myt6")
+max_health = 0
+health_regeneration = 0
+
+[sub_resource type="Resource" id="Resource_3ntyj"]
+script = ExtResource("4_dc5h5")
+damage = 0
+range = 500.0
+targets = Array[int]([3])
+
+[sub_resource type="Resource" id="Resource_61cox"]
+script = ExtResource("5_nrl5b")
+priority = 0
+attack = SubResource("Resource_3ntyj")
+attack_speed = 1.5
+projectile_speed = 100.0
+projectile = ExtResource("5_af7km")
+
+[sub_resource type="Resource" id="Resource_r5wox"]
+script = ExtResource("6_efbl5")
+health = SubResource("Resource_npots")
+range = SubResource("Resource_61cox")
+deployment = SubResource("Resource_a6c8a")
+domain_range = 0
+weight = 0
+
+[node name="SW_Tower" type="Node2D"]
+position = Vector2(32, 32)
+scale = Vector2(0.5, 0.5)
 script = ExtResource("1_6tfu7")
+tower_info = SubResource("Resource_r5wox")
 
 [node name="main" type="Sprite2D" parent="."]
-modulate = Color(0, 0, 1, 1)
 texture = ExtResource("2_e2fx8")
+
+[node name="ResourceDistributor" type="Node" parent="."]
+script = ExtResource("2_lbjds")
+
+[node name="RangeHander" type="Node" parent="ResourceDistributor"]
+script = ExtResource("3_jlu82")
+
+[node name="target_finder" type="Node" parent="ResourceDistributor/RangeHander"]
+script = ExtResource("4_trjkk")
+
+[node name="Priortize" type="Node" parent="ResourceDistributor/RangeHander" node_paths=PackedStringArray("finder")]
+script = ExtResource("5_3fxom")
+finder = NodePath("../target_finder")
+
+[node name="Shooter" type="Node" parent="ResourceDistributor/RangeHander" node_paths=PackedStringArray("priortize")]
+script = ExtResource("6_nme6x")
+priortize = NodePath("../Priortize")
+
+[node name="HealthHander" type="Node" parent="ResourceDistributor"]
+script = ExtResource("7_qyydg")
+
+[node name="DeploymentHander" type="Node" parent="ResourceDistributor"]
+script = ExtResource("8_evk82")

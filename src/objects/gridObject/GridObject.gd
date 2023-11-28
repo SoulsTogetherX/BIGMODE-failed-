@@ -8,7 +8,11 @@ var _grid_position : Vector2i = Vector2i(0, 0);
 	set(val):
 		_set_position(val);
 
-@export var snap_runtime : bool = false;
+@export var snap_runtime : bool = false:
+	set(val):
+		snap_runtime = val;
+		if snap_runtime:
+			_set_position(GridControl.get_tile_at(global_position));
 
 func _notification(what):
 	match what:

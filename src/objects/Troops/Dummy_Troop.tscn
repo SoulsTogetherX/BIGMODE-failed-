@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=3 uid="uid://l10x6ys0kusy"]
+
+[ext_resource type="Script" path="res://src/objects/Troops/Troop.gd" id="1_vfm8s"]
+[ext_resource type="Texture2D" uid="uid://cani00sl0u13o" path="res://assets/sprites/icon/icon.svg" id="2_2cvog"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_nxixn"]
+size = Vector2(12, 26)
+
+[node name="Dummy_Troop" type="CharacterBody2D"]
+collision_layer = 4
+collision_mask = 3
+script = ExtResource("1_vfm8s")
+type = 3
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.1, 0.2)
+texture = ExtResource("2_2cvog")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_nxixn")

@@ -4,7 +4,10 @@
 [ext_resource type="Texture2D" uid="uid://cani00sl0u13o" path="res://assets/sprites/icon/icon.svg" id="2_he47g"]
 
 [node name="AK_Tower" type="Node2D"]
+position = Vector2(32, 32)
+scale = Vector2(0.5, 0.5)
 script = ExtResource("1_g2mk7")
+targets = null
 
 [node name="main" type="Sprite2D" parent="." groups=["ArrowKnight", "Tower"]]
 self_modulate = Color(1, 0, 0, 1)
