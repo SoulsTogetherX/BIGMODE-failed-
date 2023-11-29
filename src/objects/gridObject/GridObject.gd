@@ -46,5 +46,5 @@ func _ready() -> void:
 	if snap_runtime || Engine.is_editor_hint():
 		set_notify_transform(true);
 
-func adjust_size(texture : Texture2D) -> void:
-	scale = (GridControl.GRID_SIZE as Vector2) / texture.get_size();
+func adjust_size(sprite : Sprite2D) -> void:
+	sprite.scale = (GridControl.GRID_SIZE as Vector2) / sprite.texture.get_size();

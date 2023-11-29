@@ -1,5 +1,5 @@
 @tool
-class_name TargetFinderModPart extends ModPart
+extends ModPart
 			
 var _detection  : Area2D = null;
 var _collide    : CollisionShape2D = null;
@@ -36,7 +36,7 @@ func _reposition() -> void:
 	_collide.disabled = false;
 
 func _set_range() -> void:
-	_collide.shape.radius = resource.attack.range;
+	_collide.shape.radius = resource.delta.range;
 
 func init() -> void:
 	_create_detection();
@@ -50,6 +50,6 @@ func find_targets() -> Array[Troop]:
 	
 	var troops : Array[Troop];
 	for troop in _detection.get_overlapping_bodies():
-		if troop.type in resource.attack.targets:
+		if troop.get_type() in resource.delta.targets:
 			troops.append(troop);
 	return troops;

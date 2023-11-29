@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="TowerInfo" load_steps=7 format=3 uid="uid://dy56m6b0gm4v6"]
 
-[ext_resource type="Script" path="res://assets/resources/script/SubResources/AttackInfo.gd" id="1_kqwde"]
+[ext_resource type="Script" path="res://assets/resources/script/SubResources/HealthDeltaInfo.gd" id="1_kqwde"]
 [ext_resource type="Script" path="res://assets/resources/script/TowerInfo.gd" id="2_pxd25"]
 [ext_resource type="Script" path="res://assets/resources/script/SubResources/HealthInfo.gd" id="2_qnque"]
 [ext_resource type="PackedScene" uid="uid://dwd6xoankwggj" path="res://src/objects/Projectile/Types/FireProjectile/Fireball.tscn" id="3_53ldn"]

@@ -1,0 +1,60 @@
+[gd_scene load_steps=14 format=3 uid="uid://bvt6hpbcvtjl7"]
+
+[ext_resource type="Script" path="res://src/objects/Towers/Tower.gd" id="1_rliop"]
+[ext_resource type="Script" path="res://src/Handers/ResourceDistributor.gd" id="10_s5uf5"]
+[ext_resource type="Script" path="res://src/Handers/RangeHander/RangeHander.gd" id="11_2a7h8"]
+[ext_resource type="Script" path="res://src/Handers/RangeHander/Mods/target_finder.gd" id="12_lekhv"]
+[ext_resource type="Script" path="res://src/Handers/RangeHander/Mods/target_priortize.gd" id="13_iixo8"]
+[ext_resource type="Script" path="res://src/Handers/RangeHander/Mods/shooter.gd" id="14_1bd8x"]
+[ext_resource type="Script" path="res://src/Handers/HealthHander/HealthHander.gd" id="15_0fjrp"]
+[ext_resource type="Script" path="res://src/Handers/HealthHander/Mods/OnDeath.gd" id="16_ljsmk"]
+[ext_resource type="Script" path="res://src/Handers/HealthHander/Mods/OnHit.gd" id="17_bcped"]
+[ext_resource type="Script" path="res://src/Handers/HealthHander/Mods/OnHeal.gd" id="18_ekesq"]
+[ext_resource type="Script" path="res://src/Handers/HealthHander/Mods/HealthStorage.gd" id="19_wvktv"]
+[ext_resource type="Script" path="res://src/Handers/HealthHander/Mods/HealthDetect.gd" id="20_jvrqr"]
+[ext_resource type="Script" path="res://src/Handers/DeploymentHander/DeploymentHander.gd" id="21_pcftv"]
+
+[node name="Tower_Basic" type="Node2D"]
+script = ExtResource("1_rliop")
+
+[node name="ResourceDistributor" type="Node" parent="."]
+script = ExtResource("10_s5uf5")
+
+[node name="RangeHander" type="Node" parent="ResourceDistributor"]
+script = ExtResource("11_2a7h8")
+
+[node name="target_finder" type="Node" parent="ResourceDistributor/RangeHander"]
+script = ExtResource("12_lekhv")
+
+[node name="Priortize" type="Node" parent="ResourceDistributor/RangeHander" node_paths=PackedStringArray("finder")]
+script = ExtResource("13_iixo8")
+finder = NodePath("../target_finder")
+
+[node name="Shooter" type="Node" parent="ResourceDistributor/RangeHander" node_paths=PackedStringArray("priortize")]
+script = ExtResource("14_1bd8x")
+priortize = NodePath("../Priortize")
+
+[node name="HealthHander" type="Node" parent="ResourceDistributor"]
+script = ExtResource("15_0fjrp")
+
+[node name="OnDeath" type="Node" parent="ResourceDistributor/HealthHander"]
+script = ExtResource("16_ljsmk")
+
+[node name="OnHit" type="Node" parent="ResourceDistributor/HealthHander"]
+script = ExtResource("17_bcped")
+
+[node name="OnHeal" type="Node" parent="ResourceDistributor/HealthHander"]
+script = ExtResource("18_ekesq")
+
+[node name="HealthStorage" type="Node" parent="ResourceDistributor/HealthHander" node_paths=PackedStringArray("onDeath", "onHit", "onHeal")]
+script = ExtResource("19_wvktv")
+onDeath = NodePath("../OnDeath")
+onHit = NodePath("../OnHit")
+onHeal = NodePath("../OnHeal")
+
+[node name="HealthDetect" type="Node" parent="ResourceDistributor/HealthHander" node_paths=PackedStringArray("health_storage")]
+script = ExtResource("20_jvrqr")
+health_storage = NodePath("../HealthStorage")
+
+[node name="DeploymentHander" type="Node" parent="ResourceDistributor"]
+script = ExtResource("21_pcftv")

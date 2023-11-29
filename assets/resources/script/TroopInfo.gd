@@ -1,6 +1,12 @@
 @tool
 class_name TroopInfo extends ResourceInfo
 
+@export var type  : ALLEGIANCE:
+	set(val):
+		if type != val:
+			type = val;
+			emit_changed();
+
 @export var health  : HealthInfo:
 	set(val):
 		if health != val:
@@ -12,15 +18,15 @@ class_name TroopInfo extends ResourceInfo
 			health = val;
 			emit_changed();
 
-@export var attack  : AttackInfo:
+@export var delta  : HealthDeltaInfo:
 	set(val):
-		if attack != val:
+		if delta != val:
 			if val != null:
 				val.changed.connect(emit_changed);
-			if attack != null:
-				attack.changed.disconnect(emit_changed);
+			if delta != null:
+				delta.changed.disconnect(emit_changed);
 			
-			attack = val;
+			delta = val;
 			emit_changed();
 
 @export var carry_strength : float:

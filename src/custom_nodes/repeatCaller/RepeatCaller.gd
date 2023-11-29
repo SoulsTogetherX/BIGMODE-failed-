@@ -50,7 +50,7 @@ var _stopped : bool = false;
 	set(val):
 		delay = max(0, val);
 		_timer_delay.wait_time = delay;
-		if _timer_delay.is_stopped():
+		if !_timer_delay.is_stopped():
 			_update_processing();
 ## Defines which frames the passed method will be called on.[br][br]
 ##
@@ -59,40 +59,60 @@ var _stopped : bool = false;
 	set(val):
 		processType = val;
 		_update_processing();
-## The provided method that will be repeatedly called.[br]
+## The provided [Callable] that will be repeatedly called.[br]
 ## If not set, a dummy function will be called instead. The dummy function does nothing.
 @export var call_func   : Callable = (func() -> void: return):
 	set(val):
+		if call_func == null:
+			_timer_delay.timeout.disconnect(call_func);
 		call_func = val;
-		_timer_delay.timeout.connect(call_func);
+		if val != null:
+			_timer_delay.timeout.connect(call_func);
+## The provided [Callable] that will be repeatedly when the interval has ended. See
+## [member interval].[br]
+## If not set, a dummy function will be called instead. The dummy function does nothing.[br][br]
+##
+## [b]NOTE[/b]: This can be used with [method Node.queue_free] to automatically clear this node
+## after completion.
+@export var end_func   : Callable = (func() -> void: return):
+	set(val):
+		if end_func == null:
+			_timer_interval.timeout.disconnect(end_func);
+		end_func = val;
+		if val != null:
+			_timer_interval.timeout.connect(end_func);
 
-func _ready() -> void:
+func _init() -> void:
 	_timer_interval = Timer.new();
-	if interval > 0:
-		_timer_interval.wait_time = interval;
 	_timer_interval.one_shot = true;
 	_timer_interval.timeout.connect(_timeout);
 	add_child(_timer_interval);
+	_timer_interval.stop();
 	
 	_timer_delay = Timer.new();
-	if delay > 0:
-		_timer_delay.wait_time = delay;
 	_timer_delay.one_shot = false;
 	add_child(_timer_delay);
-	
-	if !autostart:
-		stop();
+	_timer_delay.stop();
+
+func _ready() -> void:
+	if interval > 0:
+		_timer_interval.wait_time = interval;
+	else:
+		_timer_interval.timeout.emit();
 		return;
+	if delay > 0:
+		_timer_delay.wait_time = delay;
 	
-	_update_processing();
-	if interval == 0:
-		_timer_interval.stop();
+	if autostart:
+		start();
 
 func _timeout() -> void:
 	timeout.emit();
 	stop();
 
 func _update_processing() -> void:
+	_timer_interval.process_callback = (processType as Timer.TimerProcessCallback);
+	
 	if delay > 0:
 		set_process(false);
 		set_physics_process(false);
@@ -101,7 +121,6 @@ func _update_processing() -> void:
 		return;
 	
 	_timer_delay.stop();
-	_timer_interval.process_callback = (processType as Timer.TimerProcessCallback);
 	if processType == RepeatProcessCallback.REPEAT_PROCESS_PHYSICS:
 		set_process(false);
 		set_physics_process(true);
@@ -125,6 +144,8 @@ func start() -> void:
 	
 	if interval > 0:
 		_timer_interval.start();
+	if delay > 0:
+		_timer_delay.start();
 	_stopped = false;
 
 ## Stops the callback.
@@ -135,6 +156,7 @@ func stop() -> void:
 	set_process(false);
 	set_physics_process(false);
 	_timer_interval.stop();
+	_timer_delay.stop();
 	_stopped = true;
 
 ## Returns if the callback is stopped.

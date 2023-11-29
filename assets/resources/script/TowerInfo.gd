@@ -14,7 +14,7 @@ class_name TowerInfo extends ResourceInfo
 			emit_changed();
 
 
-@export_group("Attack")
+@export_group("Projectile")
 @export var range : RangeInfo:
 	set(val):
 		if range != val:

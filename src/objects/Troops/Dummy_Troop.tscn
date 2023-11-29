@@ -1,7 +1,41 @@
-[gd_scene load_steps=4 format=3 uid="uid://l10x6ys0kusy"]
+[gd_scene load_steps=19 format=3 uid="uid://l10x6ys0kusy"]
 
 [ext_resource type="Script" path="res://src/objects/Troops/Troop.gd" id="1_vfm8s"]
 [ext_resource type="Texture2D" uid="uid://cani00sl0u13o" path="res://assets/sprites/icon/icon.svg" id="2_2cvog"]
+[ext_resource type="Script" path="res://assets/resources/script/SubResources/HealthDeltaInfo.gd" id="2_e1ubd"]
+[ext_resource type="Script" path="res://assets/resources/script/SubResources/AttackTypes/Types/SingleTargetInfo.gd" id="3_3pt4l"]
+[ext_resource type="Script" path="res://assets/resources/script/SubResources/HealthInfo.gd" id="3_d8ul1"]
+[ext_resource type="Script" path="res://src/Handers/ResourceDistributor.gd" id="3_ngjmf"]
+[ext_resource type="Script" path="res://assets/resources/script/TroopInfo.gd" id="4_agwwj"]
+[ext_resource type="Script" path="res://src/Handers/HealthHander/HealthHander.gd" id="4_f2fk0"]
+[ext_resource type="Script" path="res://src/Handers/HealthHander/Mods/OnDeath.gd" id="5_h7g7f"]
+[ext_resource type="Script" path="res://src/Handers/HealthHander/Mods/OnHit.gd" id="6_sn8b4"]
+[ext_resource type="Script" path="res://src/Handers/HealthHander/Mods/OnHeal.gd" id="7_sk4hd"]
+[ext_resource type="Script" path="res://src/Handers/HealthHander/Mods/HealthStorage.gd" id="8_y4ww4"]
+[ext_resource type="Script" path="res://src/Handers/HealthHander/Mods/HealthDetect.gd" id="9_gnkap"]
+
+[sub_resource type="Resource" id="Resource_4pjsr"]
+script = ExtResource("3_3pt4l")
+
+[sub_resource type="Resource" id="Resource_wgqk3"]
+script = ExtResource("2_e1ubd")
+delta = 0
+range = 0.0
+target_type = SubResource("Resource_4pjsr")
+targets = Array[int]([])
+
+[sub_resource type="Resource" id="Resource_7qj2h"]
+script = ExtResource("3_d8ul1")
+max_health = 10
+health_regeneration = 0
+
+[sub_resource type="Resource" id="Resource_xoitb"]
+script = ExtResource("4_agwwj")
+type = 3
+health = SubResource("Resource_7qj2h")
+delta = SubResource("Resource_wgqk3")
+carry_strength = 0.0
+move_speed = 0.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_nxixn"]
 size = Vector2(12, 26)
@@ -10,7 +44,7 @@ size = Vector2(12, 26)
 collision_layer = 4
 collision_mask = 3
 script = ExtResource("1_vfm8s")
-type = 3
+troopInfo = SubResource("Resource_xoitb")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 scale = Vector2(0.1, 0.2)
@@ -18,3 +52,28 @@ texture = ExtResource("2_2cvog")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_nxixn")
+
+[node name="ResourceDistributor" type="Node" parent="."]
+script = ExtResource("3_ngjmf")
+
+[node name="HealthHander" type="Node" parent="ResourceDistributor"]
+script = ExtResource("4_f2fk0")
+
+[node name="OnDeath" type="Node" parent="ResourceDistributor/HealthHander"]
+script = ExtResource("5_h7g7f")
+
+[node name="OnHit" type="Node" parent="ResourceDistributor/HealthHander"]
+script = ExtResource("6_sn8b4")
+
+[node name="OnHeal" type="Node" parent="ResourceDistributor/HealthHander"]
+script = ExtResource("7_sk4hd")
+
+[node name="HealthStorage" type="Node" parent="ResourceDistributor/HealthHander" node_paths=PackedStringArray("onDeath", "onHit", "onHeal")]
+script = ExtResource("8_y4ww4")
+onDeath = NodePath("../OnDeath")
+onHit = NodePath("../OnHit")
+onHeal = NodePath("../OnHeal")
+
+[node name="HealthDetect" type="Node" parent="ResourceDistributor/HealthHander" node_paths=PackedStringArray("health_storage")]
+script = ExtResource("9_gnkap")
+health_storage = NodePath("../HealthStorage")

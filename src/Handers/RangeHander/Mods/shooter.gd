@@ -1,7 +1,7 @@
 @tool
-class_name ShooterModPart extends ModPart
+extends ModPart
 
-@export var priortize : PriortizeModPart;
+@export var priortize : ModPart;
 
 var _cooldown : Timer;
 
@@ -14,20 +14,18 @@ func init() -> void:
 
 func update() -> void:
 	if !Engine.is_editor_hint():
-		_cooldown.wait_time = resource.attack_speed;
+		_cooldown.wait_time = resource.shoot_speed;
 		_cooldown.start();
 
 func shoot_at(target : Vector2) -> void:
 	var projectile = resource.projectile.instantiate();
-	var attack = resource.attack;
+	var attack = resource.delta;
 	
 	get_tree().root.add_child(projectile);
 	projectile.global_position = actor.global_position;
 	
 	projectile.settup_projectile(
-		attack.attack_type,
-		attack.targets,
-		attack.range * 0.5,
+		resource.delta,
 		resource.projectile_speed,
 		target
 	);
@@ -37,7 +35,7 @@ func _on_cooldown() -> void:
 	if target == null:
 		return;
 	
-	var random : float = min(resource.attack_speed * 0.1, 0.1);
+	var random : float = min(resource.shoot_speed * 0.1, 0.1);
 	await get_tree().create_timer(randf_range(0, random)).timeout;
 	shoot_at(target.global_position);
 	

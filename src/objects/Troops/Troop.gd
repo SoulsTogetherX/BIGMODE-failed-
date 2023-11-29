@@ -1,5 +1,20 @@
 class_name Troop extends CharacterBody2D
 
-enum TROOP_TYPE {ALLY = 0, ENEMY = 1, NEUTRAL = 2, HARMLESS = 3};
+signal changeHealth(delta : int);
 
-@export var type : TROOP_TYPE;
+@onready var _resource_distributor : ResourceDistributor = $ResourceDistributor;
+
+@export var troopInfo : TroopInfo;
+
+func _ready() -> void:
+	# TESTING PURPOSES
+	init(troopInfo);
+
+func init(resouce : TroopInfo) -> void:
+	troopInfo = resouce;
+	
+	var arg_resources : Array[ResourceInfo] = [troopInfo.health];
+	_resource_distributor.init(self, arg_resources);
+
+func get_type() -> ResourceInfo.ALLEGIANCE:
+	return troopInfo.type;

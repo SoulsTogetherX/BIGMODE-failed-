@@ -1,7 +1,7 @@
 @tool
-class_name PriortizeModPart extends ModPart
+extends ModPart
 
-@export var finder : TargetFinderModPart;
+@export var finder : ModPart;
 
 func get_target() -> Troop:
 	var troops : Array[Troop] = finder.find_targets();
