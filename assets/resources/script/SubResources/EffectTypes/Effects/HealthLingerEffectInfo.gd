@@ -26,6 +26,9 @@ func trigger_effect(actor : Node2D) -> void:
 		return;
 	actor.current_effects |= EFFECT_TYPE.BURN;
 	
+	if particle:
+		actor.add_child(particle.instantiate());
+	
 	var caller = RepeatCaller.new();
 	caller.interval = time;
 	caller.delay = delay;
@@ -33,13 +36,11 @@ func trigger_effect(actor : Node2D) -> void:
 	caller.end_func = (
 		func():
 			actor.current_effects &= ~EFFECT_TYPE.BURN;
-			caller.queue_free;\
+			particle.queue_free()
+			caller.queue_free();\
 		);
 	caller.call_func = (
 		func(change : Signal, delta : int):
 			change.emit(delta);\
 		).bind(actor.changeHealth, delta);
-	
-	if particle:
-		caller.add_child(particle.instantiate());
 	actor.add_child(caller);
