@@ -1,7 +1,6 @@
 class_name LinearProjectileInfo extends ResourceInfo
 
 @export var continous_collition_checking : bool = false;
-
 @export var projectile : PackedScene:
 	set(val):
 		if projectile != val:

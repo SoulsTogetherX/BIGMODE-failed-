@@ -48,7 +48,6 @@ format = 2
 [node name="SW_Tower" parent="." instance=ExtResource("3_sdar6")]
 position = Vector2(-224, -96)
 grid_position = Vector2i(-4, -2)
-
 [node name="TroopSpawner" parent="." instance=ExtResource("3_2fxt1")]
 position = Vector2(96, -96)
 type = 1
