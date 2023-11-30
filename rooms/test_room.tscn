@@ -41,6 +41,10 @@ height = 192.0
 [node name="test_room" type="Node2D"]
 
 [node name="player" parent="." instance=ExtResource("1_mn4xc")]
+[node name="E_Tower" parent="." instance=ExtResource("2_ikth5")]
+position = Vector2(-48, 48)
+scale = Vector2(0.5, 0.5)
+grid_position = Vector2i(-2, 1)
 
 [node name="TileMap" type="TileMap" parent="."]
 format = 2
