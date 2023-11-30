@@ -47,13 +47,13 @@ class_name TowerInfo extends ResourceInfo
 
 
 @export_group("Other")
-@export var domain_range : int:
+@export var domain_range : int = 500:
 	set(val):
 		if domain_range != val:
 			domain_range = val;
 			emit_changed();
 
-@export var weight       : int:
+@export var weight       : int = 10:
 	set(val):
 		if weight != val:
 			weight = val;

@@ -1,5 +1,7 @@
 class_name LinearProjectileInfo extends ResourceInfo
 
+@export var continous_collition_checking : bool = false;
+
 @export var projectile : PackedScene:
 	set(val):
 		if projectile != val:
@@ -30,5 +32,6 @@ func spawn(
 
 	proj._movement = tw;
 	proj._deltaType = delta;
+	proj.continous_collition_checking = continous_collition_checking;
 	
 	return proj;

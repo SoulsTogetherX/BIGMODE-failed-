@@ -1,7 +1,42 @@
-[gd_scene load_steps=3 format=3 uid="uid://gvirkiccxqe7"]
+[gd_scene load_steps=14 format=3 uid="uid://gvirkiccxqe7"]
 
 [ext_resource type="PackedScene" uid="uid://dthm4qwpxsph" path="res://src/objects/player/player.tscn" id="1_mn4xc"]
+[ext_resource type="PackedScene" uid="uid://dn1cv1frhlw8i" path="res://src/objects/Troops/Spawner/Troop_Spawner.tscn" id="3_2fxt1"]
 [ext_resource type="PackedScene" uid="uid://cfq5tun8e7vn" path="res://src/objects/Towers/ShieldWizard/ShieldWizard_Tower.tscn" id="3_sdar6"]
+[ext_resource type="Script" path="res://assets/resources/script/SubResources/HealthDeltaInfo.gd" id="4_8fjeu"]
+[ext_resource type="Script" path="res://assets/resources/script/SubResources/AttackTypes/SingleTargetInfo.gd" id="5_tcivo"]
+[ext_resource type="Script" path="res://assets/resources/script/SubResources/HealthInfo.gd" id="6_kv3b1"]
+[ext_resource type="Script" path="res://assets/resources/script/TroopInfo.gd" id="7_vd8ta"]
+[ext_resource type="Script" path="res://assets/resources/script/SubResources/ShapeInfo.gd" id="8_fo0qg"]
+
+[sub_resource type="Resource" id="Resource_ss1eu"]
+script = ExtResource("5_tcivo")
+
+[sub_resource type="Resource" id="Resource_nuxx7"]
+script = ExtResource("4_8fjeu")
+delta = -1
+range = 500.0
+targets = Array[int]([1, 2])
+target_type = SubResource("Resource_ss1eu")
+
+[sub_resource type="Resource" id="Resource_78olw"]
+script = ExtResource("6_kv3b1")
+max_health = 10
+health_regeneration = 0
+
+[sub_resource type="Resource" id="Resource_rjpyb"]
+script = ExtResource("7_vd8ta")
+health = SubResource("Resource_78olw")
+delta = SubResource("Resource_nuxx7")
+carry_strength = 1.0
+move_speed = 250.0
+
+[sub_resource type="Resource" id="Resource_pyyhd"]
+script = ExtResource("8_fo0qg")
+offset = Vector2(0, 0)
+shape = 2
+width = 192.0
+height = 192.0
 
 [node name="test_room" type="Node2D"]
 
@@ -13,3 +48,13 @@ format = 2
 [node name="SW_Tower" parent="." instance=ExtResource("3_sdar6")]
 position = Vector2(-224, -96)
 grid_position = Vector2i(-4, -2)
+
+[node name="TroopSpawner" parent="." instance=ExtResource("3_2fxt1")]
+position = Vector2(96, -96)
+type = 1
+troop_info = SubResource("Resource_rjpyb")
+spawn_shape = SubResource("Resource_pyyhd")
+number = 2
+continous = true
+delay = 0.5
+grid_position = Vector2i(1, -2)

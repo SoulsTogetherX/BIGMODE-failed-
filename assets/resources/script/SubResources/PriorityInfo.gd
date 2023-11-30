@@ -1,7 +1,7 @@
 @tool
 class_name PriorityInfo extends ResourceInfo
 
-const funcs : Array = ["_close_priority", "_far_priority", "_random_priority"];
+const funcs : Array = ["close_priority", "far_priority", "random_priority"];
 enum PRIORTIZE {CLOSE = 0, FAR = 1, RANDOM = 2};
 
 @export var priority : PRIORTIZE = PRIORTIZE.CLOSE:
@@ -16,7 +16,7 @@ func get_target(from : Vector2, checks : Array) -> Node2D:
 	
 	return call(funcs[priority], from, checks);
 
-func _close_priority(from : Vector2, checks : Array) -> Node2D:
+static func close_priority(from : Vector2, checks : Array) -> Node2D:
 	var closest_node     : Node2D = null;
 	var closest_distance : float = INF;
 
@@ -31,7 +31,7 @@ func _close_priority(from : Vector2, checks : Array) -> Node2D:
 
 	return closest_node;
 
-func _far_priority(from : Vector2, checks : Array) -> Node2D:
+static func far_priority(from : Vector2, checks : Array) -> Node2D:
 	var farest_node      : Node2D = null;
 	var farther_distance : float = -INF;
 
@@ -46,7 +46,7 @@ func _far_priority(from : Vector2, checks : Array) -> Node2D:
 
 	return farest_node;
 
-func _random_priority(from : Vector2, checks : Array) -> Node2D:
+static func random_priority(from : Vector2, checks : Array) -> Node2D:
 	return checks.pick_random();
 
 func get_id():

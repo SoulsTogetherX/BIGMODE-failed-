@@ -23,6 +23,9 @@ func init(resouce : TroopInfo) -> void:
 		troopInfo = resouce;
 	
 	var arg_resources : Array[ResourceInfo] = [troopInfo.health];
+	
+	if _resource_distributor == null:
+		await ready;
 	_resource_distributor.init(self, arg_resources);
 
 func is_dead() -> bool:

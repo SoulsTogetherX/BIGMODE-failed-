@@ -36,7 +36,6 @@ var width : float = 0.01:
 		return rect.size.x;
 	set(val):
 		if val != width:
-			print(rect)
 			rect.position.x = -val * 0.5;
 			rect.size.x = val;
 			emit_changed();
@@ -45,7 +44,6 @@ var height : float = 0.01:
 		return rect.size.y;
 	set(val):
 		if val != height:
-			print(rect)
 			rect.position.y = -val * 0.5;
 			rect.size.y = val;
 			emit_changed();
@@ -74,14 +72,14 @@ func _get_property_list():
 				name  = "width",
 				type  = TYPE_FLOAT,
 				hint  = PROPERTY_HINT_RANGE,
-				hint_string = "0.01,1000,0.01",
+				hint_string = "0.01,2000,0.01",
 				usage = PROPERTY_USAGE_DEFAULT,
 			});
 			properties.append({
 				name  = "height",
 				type  = TYPE_FLOAT,
 				hint  = PROPERTY_HINT_RANGE,
-				hint_string = "0.01,100,0.01",
+				hint_string = "0.01,2000,0.01",
 				usage = PROPERTY_USAGE_DEFAULT,
 			});
 	return properties;
