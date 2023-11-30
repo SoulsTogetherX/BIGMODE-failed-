@@ -3,6 +3,11 @@ extends Node2D
 
 signal changeHealth(delta : int);
 
+signal funcAllTroops(call : Callable);
+signal troop_enter(troop : Troop);
+signal troop_exit(troop : Troop);
+signal release_troops();
+
 @onready var _resource_distributor : ResourceDistributor = $ResourceDistributor
 
 @export var type         : ResourceInfo.ALLEGIANCE;

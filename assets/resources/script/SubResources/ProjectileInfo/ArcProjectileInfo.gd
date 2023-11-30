@@ -1,6 +1,6 @@
 class_name ArcProjectileInfo extends LinearProjectileInfo
 
-@export var arc_height : float:
+@export var arc_height : float = 200:
 	set(val):
 		if val != arc_height:
 			arc_height = val;

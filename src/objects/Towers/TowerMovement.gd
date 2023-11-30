@@ -27,7 +27,7 @@ func toggle_firing(toggle : bool = true) -> void:
 	tower.toggle_root("RangeMod", toggle);
 
 func act_on_troops(foo : Callable) -> void:
-	pass;
+	tower.funcAllTroops.emit(foo);
 
 func enter(troop : Troop) -> bool:
 	return false;

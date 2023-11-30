@@ -5,6 +5,7 @@ extends ModPart
 @export var random    : ModPart;
 
 var _cooldown : Timer;
+var on_burst : bool = false;
 
 func init() -> void:
 	_cooldown = Timer.new();
@@ -15,20 +16,25 @@ func init() -> void:
 
 func update() -> void:
 	if !Engine.is_editor_hint():
-		_cooldown.wait_time = resource.shoot_speed;
+		_cooldown.wait_time = resource.shoot_speed * 0.5;
 		_cooldown.start();
 
 func shoot_at(target : Vector2) -> void:
 	if resource.projectile == null:
 		return;
+	var burst : int = ceili(resource.scatter * resource.burst)
+	if on_burst:
+		burst = resource.scatter - burst;
+	on_burst = !on_burst;
 	
-	var projectile = resource.projectile.spawn(
-		get_tree().root,
-		resource.delta,
-		resource.projectile_speed,
-		random.get_begin(),
-		random.get_end(target),
-	);
+	for i in burst:
+		var projectile = resource.projectile.spawn(
+			get_tree().root,
+			resource.delta,
+			resource.projectile_speed,
+			random.get_begin(),
+			random.get_end(target),
+		);
 
 func _on_cooldown() -> void:
 	var target : Troop = priortize.get_target();

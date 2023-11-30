@@ -18,20 +18,20 @@ const DEFAUT_COLOR : Color = Color("#dc143c80");
 			emit_changed();
 			notify_property_list_changed();
 
-var radius : float:
-	set(val):
-		if val != radius:
-			radius = val;
-			emit_changed();
-
 var gizmo_extents : float = 10:
 	set(val):
 		if val != gizmo_extents:
 			gizmo_extents = val;
 			emit_changed();
 
+var radius : float = 0.01:
+	set(val):
+		if val != radius:
+			radius = val;
+			emit_changed();
+
 var rect  : Rect2;
-var width : float:
+var width : float = 0.01:
 	get:
 		return rect.size.x;
 	set(val):
@@ -40,7 +40,7 @@ var width : float:
 			rect.position.x = -val * 0.5;
 			rect.size.x = val;
 			emit_changed();
-var height : float:
+var height : float = 0.01:
 	get:
 		return rect.size.y;
 	set(val):

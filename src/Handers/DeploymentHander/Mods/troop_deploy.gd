@@ -1,6 +1,8 @@
 @tool
 extends ModPart
 
+@export var storage : ModPart;
+
 func _resource_setter(val):
 	if resource != val:
 		if resource != null:

@@ -22,3 +22,6 @@ func init() -> void:
 
 func update() -> void:
 	pass;
+
+func get_id() -> String:
+	return "Storage";

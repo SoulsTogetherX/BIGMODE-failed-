@@ -2,20 +2,20 @@
 class_name HealthDeltaInfo extends ResourceInfo
 
 @export_group("Damage, Heal, and Range")
-@export var delta      : int:
+@export var delta      : int = -1:
 	set(val):
 		if delta != val:
 			delta = val;
 			emit_changed();
 
-@export var range       : float:
+@export var range       : float = 500:
 	set(val):
 		if range != val:
 			range = val;
 			emit_changed();
 
 @export_group("Target")
-@export var targets : Array[ALLEGIANCE]:
+@export var targets : Array[ALLEGIANCE] = [ALLEGIANCE.ENEMY, ALLEGIANCE.NEUTRAL]:
 	set(val):
 		if targets != val:
 			targets = val;

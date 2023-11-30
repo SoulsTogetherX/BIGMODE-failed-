@@ -3,14 +3,14 @@ class_name HealthInfo extends ResourceInfo
 
 enum HEALTH_SIGNAL {HEALED = 0, DAMAGED = 1, KILLED = 2, REVIVED = 3, NONE = 4};
 
-@export var max_health          : int:
+@export var max_health          : int = 10:
 	set(val):
 		if max_health != val:
 			max_health = val;
 			current_health = min(current_health, val);
 			emit_changed();
 
-@export var health_regeneration : int:
+@export var health_regeneration : int = 0:
 	set(val):
 		if health_regeneration != val:
 			health_regeneration = val;
@@ -37,6 +37,15 @@ func health_change(delta : int) -> HEALTH_SIGNAL:
 
 func recover_all_health() -> void:
 	current_health = max_health;
+
+func get_health_ratio() -> float:
+	return current_health / max_health;
+
+func is_death() -> bool:
+	return current_health == 0;
+
+func regenerate() -> void:
+	current_health += health_regeneration;
 
 func get_id():
 	return "HealthInfo";

@@ -4,7 +4,7 @@ class_name PriorityInfo extends ResourceInfo
 const funcs : Array = ["_close_priority", "_far_priority", "_random_priority"];
 enum PRIORTIZE {CLOSE = 0, FAR = 1, RANDOM = 2};
 
-@export var priority : PRIORTIZE:
+@export var priority : PRIORTIZE = PRIORTIZE.CLOSE:
 	set(val):
 		if priority != val:
 			priority = val;
@@ -17,10 +17,13 @@ func get_target(from : Vector2, checks : Array) -> Node2D:
 	return call(funcs[priority], from, checks);
 
 func _close_priority(from : Vector2, checks : Array) -> Node2D:
-	var closest_node     : Node2D;
+	var closest_node     : Node2D = null;
 	var closest_distance : float = INF;
 
 	for check in checks:
+		if not check is Node2D:
+			continue;
+		
 		var distance = check.global_position.distance_squared_to(from);
 		if distance < closest_distance:
 			closest_distance = distance;
@@ -29,10 +32,13 @@ func _close_priority(from : Vector2, checks : Array) -> Node2D:
 	return closest_node;
 
 func _far_priority(from : Vector2, checks : Array) -> Node2D:
-	var farest_node      : Node2D;
+	var farest_node      : Node2D = null;
 	var farther_distance : float = -INF;
 
 	for check in checks:
+		if not check is Node2D:
+			continue;
+		
 		var distance = check.global_position.distance_squared_to(from);
 		if distance > farther_distance:
 			farther_distance = distance;

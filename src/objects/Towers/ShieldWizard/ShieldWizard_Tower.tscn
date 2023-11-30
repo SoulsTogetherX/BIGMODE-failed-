@@ -14,69 +14,72 @@
 [ext_resource type="Script" path="res://assets/resources/script/SubResources/RangeInfo.gd" id="9_uc7a1"]
 [ext_resource type="Script" path="res://assets/resources/script/TowerInfo.gd" id="10_6yetg"]
 
-[sub_resource type="Resource" id="Resource_kxo18"]
+[sub_resource type="Resource" id="Resource_ejnjj"]
 script = ExtResource("9_37fgh")
 offset = Vector2(0, 0)
 shape = 0
 gizmo_extents = 10.0
 
-[sub_resource type="Resource" id="Resource_2vcbu"]
+[sub_resource type="Resource" id="Resource_i5ujg"]
 script = ExtResource("4_v7wf2")
-max_troops = 0
+max_troops = 5
 troop_regeneration = 0
-exit_pos = SubResource("Resource_kxo18")
+exit_pos = SubResource("Resource_ejnjj")
 
-[sub_resource type="Resource" id="Resource_k0f82"]
+[sub_resource type="Resource" id="Resource_ipn0q"]
 script = ExtResource("5_buc2h")
-max_health = 100
+max_health = 10
 health_regeneration = 0
 
-[sub_resource type="Resource" id="Resource_v6tr6"]
+[sub_resource type="Resource" id="Resource_t83jm"]
 script = ExtResource("8_yaqav")
 
-[sub_resource type="Resource" id="Resource_qivpo"]
+[sub_resource type="Resource" id="Resource_kyj75"]
 script = ExtResource("6_6djh0")
 delta = -1
 range = 500.0
-targets = Array[int]([3])
-target_type = SubResource("Resource_v6tr6")
+targets = Array[int]([1, 2])
+target_type = SubResource("Resource_t83jm")
 
-[sub_resource type="Resource" id="Resource_u626k"]
+[sub_resource type="Resource" id="Resource_y1ajc"]
 script = ExtResource("9_37fgh")
 offset = Vector2(0, 0)
 shape = 1
 radius = 50.0
 
-[sub_resource type="Resource" id="Resource_k4ngk"]
+[sub_resource type="Resource" id="Resource_svkja"]
 script = ExtResource("9_5le0t")
-priority = 2
+priority = 0
 
-[sub_resource type="Resource" id="Resource_4nkbf"]
+[sub_resource type="Resource" id="Resource_ijkdl"]
 script = ExtResource("8_5m2o3")
 arc_height = 200.0
 projectile = ExtResource("8_v0ybg")
 
-[sub_resource type="Resource" id="Resource_n4tsg"]
+[sub_resource type="Resource" id="Resource_goake"]
 script = ExtResource("9_37fgh")
 offset = Vector2(0, 0)
 shape = 1
-radius = 10.0
+radius = 20.0
 
-[sub_resource type="Resource" id="Resource_y21e2"]
+[sub_resource type="Resource" id="Resource_2ukka"]
 script = ExtResource("9_uc7a1")
-priority = SubResource("Resource_k4ngk")
-delta = SubResource("Resource_qivpo")
-shoot_speed = 0.7
-projectile = SubResource("Resource_4nkbf")
-projectile_speed = 1.5
-fire_pos = SubResource("Resource_u626k")
-target_pos = SubResource("Resource_n4tsg")
+priority = SubResource("Resource_svkja")
+delta = SubResource("Resource_kyj75")
+max_scatter = 10
+scatter = 4
+burst = 0.0
+shoot_speed = 1.2
+projectile = SubResource("Resource_ijkdl")
+projectile_speed = 0.7
+fire_pos = SubResource("Resource_y1ajc")
+target_pos = SubResource("Resource_goake")
 
-[sub_resource type="Resource" id="Resource_f2a0x"]
+[sub_resource type="Resource" id="Resource_a7cpl"]
 script = ExtResource("10_6yetg")
-health = SubResource("Resource_k0f82")
-range = SubResource("Resource_y21e2")
-deployment = SubResource("Resource_2vcbu")
+health = SubResource("Resource_ipn0q")
+range = SubResource("Resource_2ukka")
+deployment = SubResource("Resource_i5ujg")
 domain_range = 0
 weight = 0
 
@@ -89,4 +92,4 @@ scale = Vector2(0.5, 0.5)
 texture = ExtResource("2_am2j3")
 
 [node name="Tower_Dummy" parent="." instance=ExtResource("3_vx3eb")]
-tower_info = SubResource("Resource_f2a0x")
+tower_info = SubResource("Resource_a7cpl")

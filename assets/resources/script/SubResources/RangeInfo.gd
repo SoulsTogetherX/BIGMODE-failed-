@@ -29,7 +29,27 @@ class_name RangeInfo extends ResourceInfo
 				delta.changed.connect(emit_changed);
 			emit_changed();
 
-@export var shoot_speed : float:
+@export var max_scatter : int = 1:
+	set(val):
+		val = max(1, val);
+		if max_scatter != val:
+			max_scatter = val;
+			emit_changed();
+
+@export var scatter : int = 1:
+	set(val):
+		val = clampi(val, 1, max_scatter);
+		if scatter != val:
+			scatter = val;
+			emit_changed();
+
+@export_range(0, 1.) var burst   : float = 0.0:
+	set(val):
+		if burst != val:
+			burst = val;
+			emit_changed();
+
+@export var shoot_speed : float = 1.2:
 	set(val):
 		if shoot_speed != val:
 			shoot_speed = val;
@@ -47,7 +67,7 @@ class_name RangeInfo extends ResourceInfo
 			projectile = val;
 			emit_changed();
 
-@export var projectile_speed : float:
+@export var projectile_speed : float = 0.7:
 	set(val):
 		if projectile_speed != val:
 			projectile_speed = val;

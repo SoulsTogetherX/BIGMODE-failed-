@@ -2,13 +2,13 @@
 class_name DeploymentInfo extends ResourceInfo
 
 @export_group("Troop Number")
-@export var max_troops : int:
+@export var max_troops : int = 5:
 	set(val):
 		if max_troops != val:
 			max_troops = val;
 			emit_changed();
 
-@export var troop_regeneration : int:
+@export var troop_regeneration : int = 0:
 	set(val):
 		if troop_regeneration != val:
 			troop_regeneration = val;

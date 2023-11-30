@@ -3,6 +3,11 @@ extends ModPart
 
 var troops : Array[Troop] = [];
 
+func _actor_setter(val):
+	if val != actor:
+		actor = val;
+		actor.funcAllTroops.connect(func_all_troops);
+
 func set_troops(reinforcements : Array[Troop]) -> void:
 	for t in troops:
 		t.queue_free();
@@ -23,3 +28,7 @@ func push_troop(troop : Troop) -> void:
 
 func push_troops(reinforcements : Array[Troop]) -> void:
 	troops.append_array(reinforcements);
+
+func func_all_troops(call : Callable) -> void:
+	for t in troops:
+		call.call(t);

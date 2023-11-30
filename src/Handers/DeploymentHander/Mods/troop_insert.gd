@@ -1,19 +1,13 @@
 @tool
 extends ModPart
 
-func _resource_setter(val):
-	if resource != val:
-		if resource != null:
-			resource.changed.disconnect(update);
-		if val != null:
-			val.changed.connect(update);
-		resource = val;
+@export var storage : ModPart;
 
 func _actor_setter(val):
-	actor = val;
+	if val != actor:
+		actor = val;
+		actor.troop_enter.connect(troop_insert);
 
-func init() -> void:
-	pass
-
-func update() -> void:
+func troop_insert(troop : Troop) -> void:
+	
 	pass;

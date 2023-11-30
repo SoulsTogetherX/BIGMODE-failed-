@@ -80,11 +80,13 @@ health_storage = NodePath("../HealthStorage")
 [node name="DeploymentHander" type="Node" parent="ResourceDistributor"]
 script = ExtResource("13_v15yt")
 
-[node name="Troop_Deploy" type="Node" parent="ResourceDistributor/DeploymentHander"]
+[node name="Troop_Deploy" type="Node" parent="ResourceDistributor/DeploymentHander" node_paths=PackedStringArray("storage")]
 script = ExtResource("17_6n60h")
+storage = NodePath("../Troop_Storage")
 
-[node name="Troop_Insert" type="Node" parent="ResourceDistributor/DeploymentHander"]
+[node name="Troop_Insert" type="Node" parent="ResourceDistributor/DeploymentHander" node_paths=PackedStringArray("storage")]
 script = ExtResource("18_aelnd")
+storage = NodePath("../Troop_Storage")
 
 [node name="Troop_Spawner" type="Node" parent="ResourceDistributor/DeploymentHander" node_paths=PackedStringArray("storage")]
 script = ExtResource("19_hd2w7")
