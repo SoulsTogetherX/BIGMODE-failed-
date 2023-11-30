@@ -15,10 +15,10 @@ class_name DeploymentInfo extends ResourceInfo
 			emit_changed();
 
 @export_group("Troop")
-@export var troop_type : PackedScene:
+@export var troop_info : TroopInfo:
 	set(val):
-		if troop_type != val:
-			troop_type = val;
+		if troop_info != val:
+			troop_info = val;
 			emit_changed();
 
 @export_group("Exit Position")

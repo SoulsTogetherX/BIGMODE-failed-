@@ -41,7 +41,8 @@ var _stopped : bool = false;
 @export var interval : float = 1.0:
 	set(val):
 		interval = max(0, val);
-		_timer_interval.wait_time = interval;
+		if interval != 0:
+			_timer_interval.wait_time = interval;
 ## The delay, in seconds, that this [Node] will wait between method calls.[br][br]
 ##
 ## [b]NOTE[/b]: If [member interval] is equal to [code]0[/code], this
@@ -49,7 +50,8 @@ var _stopped : bool = false;
 @export var delay : float = 0.0:
 	set(val):
 		delay = max(0, val);
-		_timer_delay.wait_time = delay;
+		if delay != 0:
+			_timer_delay.wait_time = delay;
 		if !_timer_delay.is_stopped():
 			_update_processing();
 ## Defines which frames the passed method will be called on.[br][br]

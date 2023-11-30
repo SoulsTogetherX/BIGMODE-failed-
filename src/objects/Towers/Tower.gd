@@ -16,8 +16,11 @@ signal release_troops();
 	set(val):
 		if val == null:
 			tower_info = TowerInfo.new();
-			return;
-		tower_info = val;
+		else:
+			tower_info = val;
+		
+		if _resource_distributor != null:
+			_resource_distributor.update();
 
 func _ready() -> void:
 	if tower_info == null:

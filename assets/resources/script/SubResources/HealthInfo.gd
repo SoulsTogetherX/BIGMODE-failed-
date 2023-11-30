@@ -49,3 +49,6 @@ func regenerate() -> void:
 
 func get_id():
 	return "HealthInfo";
+
+func _init() -> void:
+	recover_all_health();

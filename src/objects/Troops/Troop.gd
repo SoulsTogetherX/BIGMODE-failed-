@@ -7,28 +7,26 @@ signal changeHealth(delta : int);
 
 @export var type      : ResourceInfo.ALLEGIANCE;
 @export_group("Info")
-@export var troopInfo : TroopInfo:
+var troopInfo : TroopInfo = TroopInfo.new():
 	set(val):
-		if val == null:
-			troopInfo = TroopInfo.new();
-			return;
-		troopInfo = val;
+		if troopInfo != val:
+			troopInfo = val;
+			if _resource_distributor != null:
+				_resource_distributor.update();
 
 var current_effects : int = 0;
 
-func _init() -> void:
-	if troopInfo == null:
-		troopInfo = TroopInfo.new();
-
-func _ready() -> void:
-	# TESTING PURPOSES
-	init(troopInfo);
-
 func init(resouce : TroopInfo) -> void:
-	troopInfo = resouce;
+	if !Engine.is_editor_hint():
+		troopInfo = resouce.duplicate(true);
+	else:
+		troopInfo = resouce;
 	
 	var arg_resources : Array[ResourceInfo] = [troopInfo.health];
 	_resource_distributor.init(self, arg_resources);
+
+func is_dead() -> bool:
+	return troopInfo.health.is_death();
 
 func get_type() -> ResourceInfo.ALLEGIANCE:
 	return type;

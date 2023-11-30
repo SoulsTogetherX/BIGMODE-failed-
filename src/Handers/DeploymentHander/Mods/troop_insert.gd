@@ -9,5 +9,5 @@ func _actor_setter(val):
 		actor.troop_enter.connect(troop_insert);
 
 func troop_insert(troop : Troop) -> void:
-	
-	pass;
+	if troop.get_type() == actor.get_type():
+		storage.push_troop(troop);

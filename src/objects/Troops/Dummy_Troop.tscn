@@ -1,12 +1,8 @@
-[gd_scene load_steps=28 format=3 uid="uid://l10x6ys0kusy"]
+[gd_scene load_steps=20 format=3 uid="uid://l10x6ys0kusy"]
 
 [ext_resource type="Script" path="res://src/objects/Troops/Troop.gd" id="1_vfm8s"]
 [ext_resource type="Texture2D" uid="uid://cani00sl0u13o" path="res://assets/sprites/icon/icon.svg" id="2_2cvog"]
-[ext_resource type="Script" path="res://assets/resources/script/SubResources/HealthDeltaInfo.gd" id="2_e1ubd"]
-[ext_resource type="Script" path="res://assets/resources/script/SubResources/AttackTypes/Types/SingleTargetInfo.gd" id="3_3pt4l"]
-[ext_resource type="Script" path="res://assets/resources/script/SubResources/HealthInfo.gd" id="3_d8ul1"]
 [ext_resource type="Script" path="res://src/Handers/ResourceDistributor.gd" id="3_ngjmf"]
-[ext_resource type="Script" path="res://assets/resources/script/TroopInfo.gd" id="4_agwwj"]
 [ext_resource type="Script" path="res://src/Handers/HealthHander/HealthHander.gd" id="4_f2fk0"]
 [ext_resource type="Script" path="res://src/Handers/HealthHander/Mods/OnDeath.gd" id="5_h7g7f"]
 [ext_resource type="Script" path="res://src/Handers/HealthHander/Mods/OnHit.gd" id="6_sn8b4"]
@@ -23,37 +19,15 @@
 [ext_resource type="Script" path="res://src/objects/Troops/States/purse.gd" id="20_ppkp1"]
 [ext_resource type="Script" path="res://src/objects/Troops/States/wander.gd" id="21_xjjjp"]
 
-[sub_resource type="Resource" id="Resource_ekq03"]
-script = ExtResource("3_3pt4l")
-
-[sub_resource type="Resource" id="Resource_wclrl"]
-script = ExtResource("2_e1ubd")
-delta = 0
-range = 0.0
-targets = Array[int]([])
-target_type = SubResource("Resource_ekq03")
-
-[sub_resource type="Resource" id="Resource_nroa0"]
-script = ExtResource("3_d8ul1")
-max_health = 999999999999999
-health_regeneration = 0
-
-[sub_resource type="Resource" id="Resource_pw28j"]
-script = ExtResource("4_agwwj")
-health = SubResource("Resource_nroa0")
-delta = SubResource("Resource_wclrl")
-carry_strength = 0.0
-move_speed = 0.0
-
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_nxixn"]
 size = Vector2(12, 26)
 
 [node name="Dummy_Troop" type="CharacterBody2D"]
+position = Vector2(-45, 0)
 collision_layer = 4
 collision_mask = 3
 script = ExtResource("1_vfm8s")
 type = 1
-troopInfo = SubResource("Resource_pw28j")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(0, -13)

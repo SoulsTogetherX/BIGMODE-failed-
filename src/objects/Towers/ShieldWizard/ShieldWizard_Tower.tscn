@@ -31,7 +31,7 @@ script = ExtResource("5_buc2h")
 max_health = 10
 health_regeneration = 0
 
-[sub_resource type="Resource" id="Resource_t83jm"]
+[sub_resource type="Resource" id="Resource_40r6h"]
 script = ExtResource("8_yaqav")
 
 [sub_resource type="Resource" id="Resource_kyj75"]
@@ -39,7 +39,7 @@ script = ExtResource("6_6djh0")
 delta = -1
 range = 500.0
 targets = Array[int]([1, 2])
-target_type = SubResource("Resource_t83jm")
+target_type = SubResource("Resource_40r6h")
 
 [sub_resource type="Resource" id="Resource_y1ajc"]
 script = ExtResource("9_37fgh")
@@ -49,7 +49,7 @@ radius = 50.0
 
 [sub_resource type="Resource" id="Resource_svkja"]
 script = ExtResource("9_5le0t")
-priority = 0
+priority = 2
 
 [sub_resource type="Resource" id="Resource_ijkdl"]
 script = ExtResource("8_5m2o3")
@@ -69,7 +69,7 @@ delta = SubResource("Resource_kyj75")
 max_scatter = 10
 scatter = 4
 burst = 0.0
-shoot_speed = 1.2
+shoot_speed = 0.2
 projectile = SubResource("Resource_ijkdl")
 projectile_speed = 0.7
 fire_pos = SubResource("Resource_y1ajc")

@@ -61,6 +61,6 @@ func find_targets() -> Array[Troop]:
 	
 	var troops : Array[Troop];
 	for troop in _detection.get_overlapping_bodies():
-		if troop.get_type() in resource.targets:
+		if troop.get_type() in resource.targets && !troop.is_dead():
 			troops.append(troop);
 	return troops;

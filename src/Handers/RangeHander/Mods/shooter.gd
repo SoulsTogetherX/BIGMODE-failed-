@@ -19,29 +19,33 @@ func update() -> void:
 		_cooldown.wait_time = resource.shoot_speed * 0.5;
 		_cooldown.start();
 
-func shoot_at(target : Vector2) -> void:
-	if resource.projectile == null:
+func _shoot_at(target : Vector2) -> void:
+	var projectile = resource.projectile.spawn(
+		get_tree().root,
+		resource.delta,
+		resource.projectile_speed,
+		random.get_begin(),
+		random.get_end(target),
+	);
+
+func _on_cooldown() -> void:
+	var target : Troop = priortize.get_target();
+	if target == null || resource.projectile == null:
 		return;
-	var burst : int = ceili(resource.scatter * resource.burst)
+	
+	var burst : int = ceili(resource.scatter * resource.burst);
 	if on_burst:
 		burst = resource.scatter - burst;
 	on_burst = !on_burst;
 	
-	for i in burst:
-		var projectile = resource.projectile.spawn(
-			get_tree().root,
-			resource.delta,
-			resource.projectile_speed,
-			random.get_begin(),
-			random.get_end(target),
-		);
-
-func _on_cooldown() -> void:
-	var target : Troop = priortize.get_target();
-	if target == null:
-		return;
-	
 	var random : float = min(resource.shoot_speed * 0.1, 0.1);
 	await get_tree().create_timer(randf_range(0, random)).timeout;
-	shoot_at(target.global_position);
+	
+	burst -= 1;
+	for i in burst:
+		_shoot_at(target.global_position);
+		target = priortize.get_target();
+		if target == null:
+			return;
+	_shoot_at(target.global_position);
 	

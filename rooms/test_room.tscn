@@ -1,8 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://gvirkiccxqe7"]
+[gd_scene load_steps=3 format=3 uid="uid://gvirkiccxqe7"]
 
 [ext_resource type="PackedScene" uid="uid://dthm4qwpxsph" path="res://src/objects/player/player.tscn" id="1_mn4xc"]
 [ext_resource type="PackedScene" uid="uid://cfq5tun8e7vn" path="res://src/objects/Towers/ShieldWizard/ShieldWizard_Tower.tscn" id="3_sdar6"]
-[ext_resource type="PackedScene" uid="uid://l10x6ys0kusy" path="res://src/objects/Troops/Dummy_Troop.tscn" id="5_rbc46"]
 
 [node name="test_room" type="Node2D"]
 
@@ -11,9 +10,6 @@
 [node name="TileMap" type="TileMap" parent="."]
 format = 2
 
-[node name="Dummy_Troop" parent="." instance=ExtResource("5_rbc46")]
-position = Vector2(-451, 33)
-
 [node name="SW_Tower" parent="." instance=ExtResource("3_sdar6")]
-position = Vector2(-32, 32)
-grid_position = Vector2i(-1, 0)
+position = Vector2(-224, -96)
+grid_position = Vector2i(-4, -2)
