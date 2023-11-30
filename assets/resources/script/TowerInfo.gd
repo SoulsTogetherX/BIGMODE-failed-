@@ -5,12 +5,14 @@ class_name TowerInfo extends ResourceInfo
 @export var health : HealthInfo:
 	set(val):
 		if health != val:
-			if val != null:
-				val.changed.connect(emit_changed);
 			if health != null:
 				health.changed.disconnect(emit_changed);
-			
-			health = val;
+			if val != null:
+				val.changed.connect(emit_changed);
+				health = val;
+			else:
+				health = HealthInfo.new();
+				health.changed.connect(emit_changed);
 			emit_changed();
 
 
@@ -18,12 +20,14 @@ class_name TowerInfo extends ResourceInfo
 @export var range : RangeInfo:
 	set(val):
 		if range != val:
-			if val != null:
-				val.changed.connect(emit_changed);
 			if range != null:
 				range.changed.disconnect(emit_changed);
-			
-			range = val;
+			if val != null:
+				val.changed.connect(emit_changed);
+				range = val;
+			else:
+				range = RangeInfo.new();
+				range.changed.connect(emit_changed);
 			emit_changed();
 
 
@@ -31,12 +35,14 @@ class_name TowerInfo extends ResourceInfo
 @export var deployment : DeploymentInfo:
 	set(val):
 		if deployment != val:
-			if val != null:
-				val.changed.connect(emit_changed);
 			if deployment != null:
 				deployment.changed.disconnect(emit_changed);
-			
-			deployment = val;
+			if val != null:
+				val.changed.connect(emit_changed);
+				deployment = val;
+			else:
+				deployment = DeploymentInfo.new();
+				deployment.changed.connect(emit_changed);
 			emit_changed();
 
 
@@ -55,3 +61,8 @@ class_name TowerInfo extends ResourceInfo
 
 func get_id():
 	return "TowerInfo";
+
+func _init() -> void:
+	health = HealthInfo.new();
+	range = RangeInfo.new();
+	deployment = DeploymentInfo.new();

@@ -1,6 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://dwd6xoankwggj"]
+[gd_scene load_steps=6 format=3 uid="uid://dwd6xoankwggj"]
 
-[ext_resource type="Script" path="res://src/objects/Projectile/Types/FireProjectile/Fireball.gd" id="1_gy1xh"]
+[ext_resource type="Script" path="res://src/objects/Projectile/Projectile.gd" id="1_71avj"]
+[ext_resource type="Script" path="res://src/Particles/particle.gd" id="2_a2duj"]
 
 [sub_resource type="Curve" id="Curve_tfh31"]
 _data = [Vector2(0.0274725, 1), 0.0, 0.0, 0, 0, Vector2(0.686813, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
@@ -14,25 +15,25 @@ colors = PackedColorArray(1, 0.901961, 0, 1, 1, 0, 0, 1, 1, 0, 0, 0)
 radius = 6.0
 
 [node name="Fireball" type="Node2D"]
-script = ExtResource("1_gy1xh")
+script = ExtResource("1_71avj")
 
-[node name="CPUParticles2D" type="CPUParticles2D" parent="."]
+[node name="particle" type="CPUParticles2D" parent="."]
 amount = 50
-lifetime = 0.1
-speed_scale = 0.1
 randomness = 0.6
+direction = Vector2(0, 0)
 spread = 180.0
 gravity = Vector2(0, 0)
-initial_velocity_min = 60.0
-initial_velocity_max = 120.0
-angular_velocity_min = -0.5
-angular_velocity_max = 0.5
-orbit_velocity_min = -0.1
-orbit_velocity_max = 0.1
+initial_velocity_min = 6.0
+initial_velocity_max = 12.0
+angular_velocity_min = -0.05
+angular_velocity_max = 0.05
+orbit_velocity_min = -0.01
+orbit_velocity_max = 0.01
 scale_amount_min = 3.0
 scale_amount_max = 6.0
 scale_amount_curve = SubResource("Curve_tfh31")
 color_ramp = SubResource("Gradient_k2lod")
+script = ExtResource("2_a2duj")
 
 [node name="CollisionDetection" type="Area2D" parent="."]
 collision_layer = 0

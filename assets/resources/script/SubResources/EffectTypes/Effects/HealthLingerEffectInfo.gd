@@ -22,14 +22,19 @@ class_name HealthLingerEffectInfo extends BlankEffectInfo
 		emit_changed();
 
 func trigger_effect(actor : Node2D) -> void:
+	if (actor.current_effects & EFFECT_TYPE.BURN) > 0:
+		return;
+	actor.current_effects |= EFFECT_TYPE.BURN;
+	
 	var caller = RepeatCaller.new();
 	caller.interval = time;
 	caller.delay = delay;
 	caller.autostart = true;
 	caller.end_func = (
-		func(caller : RepeatCaller):
+		func():
+			actor.current_effects &= ~EFFECT_TYPE.BURN;
 			caller.queue_free;\
-		).bind(caller);
+		);
 	caller.call_func = (
 		func(change : Signal, delta : int):
 			change.emit(delta);\

@@ -1,0 +1,92 @@
+[gd_scene load_steps=25 format=3 uid="uid://cfq5tun8e7vn"]
+
+[ext_resource type="Script" path="res://src/objects/Towers/TowerMovement.gd" id="1_2wist"]
+[ext_resource type="Texture2D" uid="uid://cani00sl0u13o" path="res://assets/sprites/icon/icon.svg" id="2_am2j3"]
+[ext_resource type="PackedScene" uid="uid://bvt6hpbcvtjl7" path="res://src/objects/Towers/Tower_Dummy.tscn" id="3_vx3eb"]
+[ext_resource type="Script" path="res://assets/resources/script/SubResources/DeploymentInfo.gd" id="4_v7wf2"]
+[ext_resource type="Script" path="res://assets/resources/script/SubResources/HealthInfo.gd" id="5_buc2h"]
+[ext_resource type="Script" path="res://assets/resources/script/SubResources/HealthDeltaInfo.gd" id="6_6djh0"]
+[ext_resource type="Script" path="res://assets/resources/script/SubResources/ProjectileInfo/ArcProjectileInfo.gd" id="8_5m2o3"]
+[ext_resource type="PackedScene" uid="uid://dwd6xoankwggj" path="res://src/objects/Projectile/Types/FireProjectile/Fireball.tscn" id="8_v0ybg"]
+[ext_resource type="Script" path="res://assets/resources/script/SubResources/AttackTypes/Types/SingleTargetInfo.gd" id="8_yaqav"]
+[ext_resource type="Script" path="res://assets/resources/script/SubResources/PriorityInfo.gd" id="9_5le0t"]
+[ext_resource type="Script" path="res://assets/resources/script/SubResources/ShapeInfo.gd" id="9_37fgh"]
+[ext_resource type="Script" path="res://assets/resources/script/SubResources/RangeInfo.gd" id="9_uc7a1"]
+[ext_resource type="Script" path="res://assets/resources/script/TowerInfo.gd" id="10_6yetg"]
+
+[sub_resource type="Resource" id="Resource_kxo18"]
+script = ExtResource("9_37fgh")
+offset = Vector2(0, 0)
+shape = 0
+gizmo_extents = 10.0
+
+[sub_resource type="Resource" id="Resource_2vcbu"]
+script = ExtResource("4_v7wf2")
+max_troops = 0
+troop_regeneration = 0
+exit_pos = SubResource("Resource_kxo18")
+
+[sub_resource type="Resource" id="Resource_k0f82"]
+script = ExtResource("5_buc2h")
+max_health = 100
+health_regeneration = 0
+
+[sub_resource type="Resource" id="Resource_v6tr6"]
+script = ExtResource("8_yaqav")
+
+[sub_resource type="Resource" id="Resource_qivpo"]
+script = ExtResource("6_6djh0")
+delta = -1
+range = 500.0
+targets = Array[int]([3])
+target_type = SubResource("Resource_v6tr6")
+
+[sub_resource type="Resource" id="Resource_u626k"]
+script = ExtResource("9_37fgh")
+offset = Vector2(0, 0)
+shape = 1
+radius = 50.0
+
+[sub_resource type="Resource" id="Resource_k4ngk"]
+script = ExtResource("9_5le0t")
+priority = 2
+
+[sub_resource type="Resource" id="Resource_4nkbf"]
+script = ExtResource("8_5m2o3")
+arc_height = 200.0
+projectile = ExtResource("8_v0ybg")
+
+[sub_resource type="Resource" id="Resource_n4tsg"]
+script = ExtResource("9_37fgh")
+offset = Vector2(0, 0)
+shape = 1
+radius = 10.0
+
+[sub_resource type="Resource" id="Resource_y21e2"]
+script = ExtResource("9_uc7a1")
+priority = SubResource("Resource_k4ngk")
+delta = SubResource("Resource_qivpo")
+shoot_speed = 0.7
+projectile = SubResource("Resource_4nkbf")
+projectile_speed = 1.5
+fire_pos = SubResource("Resource_u626k")
+target_pos = SubResource("Resource_n4tsg")
+
+[sub_resource type="Resource" id="Resource_f2a0x"]
+script = ExtResource("10_6yetg")
+health = SubResource("Resource_k0f82")
+range = SubResource("Resource_y21e2")
+deployment = SubResource("Resource_2vcbu")
+domain_range = 0
+weight = 0
+
+[node name="SW_Tower" type="Node2D"]
+position = Vector2(32, 32)
+script = ExtResource("1_2wist")
+
+[node name="main" type="Sprite2D" parent="."]
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("2_am2j3")
+
+[node name="Tower_Dummy" parent="." instance=ExtResource("3_vx3eb")]
+tower_info = SubResource("Resource_f2a0x")

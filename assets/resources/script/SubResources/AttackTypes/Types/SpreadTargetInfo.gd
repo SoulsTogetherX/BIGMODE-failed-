@@ -1,5 +1,5 @@
 @tool
-class_name SpreadTargetInfo extends BlankTargetInfo
+class_name SpreadTargetInfo extends SingleTargetInfo
 
 var _shape : CircleShape2D;
 

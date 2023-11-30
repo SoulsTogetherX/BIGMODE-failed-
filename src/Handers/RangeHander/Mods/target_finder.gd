@@ -5,6 +5,17 @@ var _detection  : Area2D = null;
 var _collide    : CollisionShape2D = null;
 var _drawCaller : DrawCaller = null;
 
+func _resource_setter(val):
+	if resource != val:
+		if resource != null:
+			resource.changed.disconnect(update);
+		if val != null:
+			if val.delta != null:
+				resource = val.delta;
+				resource.changed.connect(update);
+				return;
+		resource = null;
+
 func _actor_setter(val):
 	if actor != val:
 		actor = val;
@@ -36,7 +47,7 @@ func _reposition() -> void:
 	_collide.disabled = false;
 
 func _set_range() -> void:
-	_collide.shape.radius = resource.delta.range;
+	_collide.shape.radius = resource.range;
 
 func init() -> void:
 	_create_detection();
@@ -50,6 +61,6 @@ func find_targets() -> Array[Troop]:
 	
 	var troops : Array[Troop];
 	for troop in _detection.get_overlapping_bodies():
-		if troop.get_type() in resource.delta.targets:
+		if troop.get_type() in resource.targets:
 			troops.append(troop);
 	return troops;

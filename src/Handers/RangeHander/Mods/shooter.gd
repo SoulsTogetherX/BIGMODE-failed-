@@ -2,6 +2,7 @@
 extends ModPart
 
 @export var priortize : ModPart;
+@export var random    : ModPart;
 
 var _cooldown : Timer;
 
@@ -18,16 +19,15 @@ func update() -> void:
 		_cooldown.start();
 
 func shoot_at(target : Vector2) -> void:
-	var projectile = resource.projectile.instantiate();
-	var attack = resource.delta;
+	if resource.projectile == null:
+		return;
 	
-	get_tree().root.add_child(projectile);
-	projectile.global_position = actor.global_position;
-	
-	projectile.settup_projectile(
+	var projectile = resource.projectile.spawn(
+		get_tree().root,
 		resource.delta,
 		resource.projectile_speed,
-		target
+		random.get_begin(),
+		random.get_end(target),
 	);
 
 func _on_cooldown() -> void:

@@ -8,4 +8,4 @@ func update() -> void:
 	pass;
 
 func execute_action() -> void:
-	pass;
+	actor.queue_free();

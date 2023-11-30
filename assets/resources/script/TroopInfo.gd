@@ -1,34 +1,35 @@
 @tool
 class_name TroopInfo extends ResourceInfo
 
-@export var type  : ALLEGIANCE:
-	set(val):
-		if type != val:
-			type = val;
-			emit_changed();
-
+@export_group("Health")
 @export var health  : HealthInfo:
 	set(val):
 		if health != val:
-			if val != null:
-				val.changed.connect(emit_changed);
 			if health != null:
 				health.changed.disconnect(emit_changed);
-			
-			health = val;
+			if val != null:
+				val.changed.connect(emit_changed);
+				health = val;
+			else:
+				health = HealthInfo.new();
+				health.changed.connect(emit_changed);
 			emit_changed();
 
+@export_group("Attack and Heal")
 @export var delta  : HealthDeltaInfo:
 	set(val):
 		if delta != val:
-			if val != null:
-				val.changed.connect(emit_changed);
 			if delta != null:
 				delta.changed.disconnect(emit_changed);
-			
-			delta = val;
+			if val != null:
+				val.changed.connect(emit_changed);
+				delta = val;
+			else:
+				delta = HealthDeltaInfo.new();
+				delta.changed.connect(emit_changed);
 			emit_changed();
 
+@export_group("Other")
 @export var carry_strength : float:
 	set(val):
 		if carry_strength != val:
@@ -43,3 +44,7 @@ class_name TroopInfo extends ResourceInfo
 
 func get_id():
 	return "TroopInfo";
+
+func _init() -> void:
+	health = HealthInfo.new();
+	delta = HealthDeltaInfo.new();

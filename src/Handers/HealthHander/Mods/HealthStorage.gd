@@ -5,34 +5,22 @@ extends ModPart
 @export var onHit   : ModPart;
 @export var onHeal  : ModPart;
 
-var health : int = -1;
-
 func _resource_setter(val):
 	if resource != val:
 		if resource != null:
 			resource.changed.disconnect(update);
 		if val != null:
 			val.changed.connect(update);
-			health = val.max_health;
+			val.recover_all_health();
 		resource = val;
 
-func update() -> void:
-	health = min(health, resource.max_health);
-
 func health_change(delta : int) -> void:
-	var change = clamp((health + delta), 0, resource.max_health);
-	if change == health:
-		return;
-	
-	if delta > 0:
-		print("heal");
-		onHeal.execute_action();
-	else:
-		if change == 0:
-			print("death");
-			onDeath.execute_action();
-		else:
-			print("hit");
+	match resource.health_change(delta):
+		HealthInfo.HEALTH_SIGNAL.HEALED:
+			onHeal.execute_action();
+		HealthInfo.HEALTH_SIGNAL.REVIVED:
+			onHeal.execute_action();
+		HealthInfo.HEALTH_SIGNAL.DAMAGED:
 			onHit.execute_action();
-	
-	health = change;
+		HealthInfo.HEALTH_SIGNAL.KILLED:
+			onDeath.execute_action();

@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://l10x6ys0kusy"]
+[gd_scene load_steps=28 format=3 uid="uid://l10x6ys0kusy"]
 
 [ext_resource type="Script" path="res://src/objects/Troops/Troop.gd" id="1_vfm8s"]
 [ext_resource type="Texture2D" uid="uid://cani00sl0u13o" path="res://assets/sprites/icon/icon.svg" id="2_2cvog"]
@@ -13,27 +13,35 @@
 [ext_resource type="Script" path="res://src/Handers/HealthHander/Mods/OnHeal.gd" id="7_sk4hd"]
 [ext_resource type="Script" path="res://src/Handers/HealthHander/Mods/HealthStorage.gd" id="8_y4ww4"]
 [ext_resource type="Script" path="res://src/Handers/HealthHander/Mods/HealthDetect.gd" id="9_gnkap"]
+[ext_resource type="Script" path="res://src/custom_nodes/state_machine/state_overhead.gd" id="14_gd18m"]
+[ext_resource type="Script" path="res://src/custom_nodes/state_machine/state_machine.gd" id="15_8qmao"]
+[ext_resource type="Script" path="res://src/objects/Troops/States/carry.gd" id="17_rpejx"]
+[ext_resource type="Script" path="res://src/objects/Troops/States/attacking.gd" id="18_0pub3"]
+[ext_resource type="Script" path="res://src/objects/Troops/States/idle.gd" id="18_mqaf1"]
+[ext_resource type="Script" path="res://src/objects/Troops/States/in_tower.gd" id="19_mxe67"]
+[ext_resource type="Script" path="res://src/objects/Troops/States/slow_down.gd" id="20_8f3af"]
+[ext_resource type="Script" path="res://src/objects/Troops/States/purse.gd" id="20_ppkp1"]
+[ext_resource type="Script" path="res://src/objects/Troops/States/wander.gd" id="21_xjjjp"]
 
-[sub_resource type="Resource" id="Resource_4pjsr"]
+[sub_resource type="Resource" id="Resource_ekq03"]
 script = ExtResource("3_3pt4l")
 
-[sub_resource type="Resource" id="Resource_wgqk3"]
+[sub_resource type="Resource" id="Resource_wclrl"]
 script = ExtResource("2_e1ubd")
 delta = 0
 range = 0.0
-target_type = SubResource("Resource_4pjsr")
 targets = Array[int]([])
+target_type = SubResource("Resource_ekq03")
 
-[sub_resource type="Resource" id="Resource_7qj2h"]
+[sub_resource type="Resource" id="Resource_nroa0"]
 script = ExtResource("3_d8ul1")
-max_health = 10
+max_health = 999999999999999
 health_regeneration = 0
 
-[sub_resource type="Resource" id="Resource_xoitb"]
+[sub_resource type="Resource" id="Resource_pw28j"]
 script = ExtResource("4_agwwj")
-type = 3
-health = SubResource("Resource_7qj2h")
-delta = SubResource("Resource_wgqk3")
+health = SubResource("Resource_nroa0")
+delta = SubResource("Resource_wclrl")
 carry_strength = 0.0
 move_speed = 0.0
 
@@ -44,13 +52,16 @@ size = Vector2(12, 26)
 collision_layer = 4
 collision_mask = 3
 script = ExtResource("1_vfm8s")
-troopInfo = SubResource("Resource_xoitb")
+type = 3
+troopInfo = SubResource("Resource_pw28j")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0, -13)
 scale = Vector2(0.1, 0.2)
 texture = ExtResource("2_2cvog")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -13)
 shape = SubResource("RectangleShape2D_nxixn")
 
 [node name="ResourceDistributor" type="Node" parent="."]
@@ -77,3 +88,34 @@ onHeal = NodePath("../OnHeal")
 [node name="HealthDetect" type="Node" parent="ResourceDistributor/HealthHander" node_paths=PackedStringArray("health_storage")]
 script = ExtResource("9_gnkap")
 health_storage = NodePath("../HealthStorage")
+
+[node name="StateOverhead" type="Node" parent="." node_paths=PackedStringArray("_actor")]
+script = ExtResource("14_gd18m")
+_usesActor = true
+_actor = NodePath("..")
+
+[node name="StateMachine" type="Node" parent="StateOverhead" node_paths=PackedStringArray("starting_state")]
+script = ExtResource("15_8qmao")
+_name_id = "main"
+starting_state = NodePath("idle")
+
+[node name="attacking" type="Node" parent="StateOverhead/StateMachine"]
+script = ExtResource("18_0pub3")
+
+[node name="carry" type="Node" parent="StateOverhead/StateMachine"]
+script = ExtResource("17_rpejx")
+
+[node name="idle" type="Node" parent="StateOverhead/StateMachine"]
+script = ExtResource("18_mqaf1")
+
+[node name="in_tower" type="Node" parent="StateOverhead/StateMachine"]
+script = ExtResource("19_mxe67")
+
+[node name="purse" type="Node" parent="StateOverhead/StateMachine"]
+script = ExtResource("20_ppkp1")
+
+[node name="slow_down" type="Node" parent="StateOverhead/StateMachine"]
+script = ExtResource("20_8f3af")
+
+[node name="wander" type="Node" parent="StateOverhead/StateMachine"]
+script = ExtResource("21_xjjjp")
