@@ -8,7 +8,11 @@ var _grid_position : Vector2i = Vector2i(0, 0);
 	set(val):
 		_set_position(val);
 
-@export var snap_runtime : bool = false;
+@export var snap_runtime : bool = false:
+	set(val):
+		snap_runtime = val;
+		if snap_runtime:
+			_set_position(GridControl.get_tile_at(global_position));
 
 func _notification(what):
 	match what:
@@ -42,5 +46,5 @@ func _ready() -> void:
 	if snap_runtime || Engine.is_editor_hint():
 		set_notify_transform(true);
 
-func adjust_size(texture : Texture2D) -> void:
-	scale = (GridControl.GRID_SIZE as Vector2) / texture.get_size();
+func adjust_size(sprite : Sprite2D) -> void:
+	sprite.scale = (GridControl.GRID_SIZE as Vector2) / sprite.texture.get_size();

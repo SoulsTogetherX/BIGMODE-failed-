@@ -52,6 +52,12 @@ select={
 ]
 }
 
+[layer_names]
+
+2d_physics/layer_1="Obstacle"
+2d_physics/layer_2="Tower"
+2d_physics/layer_3="Troop"
+
 [rendering]
 
 renderer/rendering_method="gl_compatibility"

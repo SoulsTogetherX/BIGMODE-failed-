@@ -1,0 +1,96 @@
+[gd_scene load_steps=21 format=3 uid="uid://bvt6hpbcvtjl7"]
+
+[ext_resource type="Script" path="res://src/objects/Towers/Tower.gd" id="1_vfvuu"]
+[ext_resource type="Script" path="res://src/Handers/DrawMod.gd" id="2_d3gmb"]
+[ext_resource type="Script" path="res://src/Handers/ResourceDistributor.gd" id="2_ifak3"]
+[ext_resource type="Script" path="res://src/Handers/RangeHander/RangeHander.gd" id="3_7yaid"]
+[ext_resource type="Script" path="res://src/Handers/RangeHander/Mods/target_finder.gd" id="4_8oicg"]
+[ext_resource type="Script" path="res://src/Handers/RangeHander/Mods/shoot_disabler.gd" id="4_mmp0f"]
+[ext_resource type="Script" path="res://src/Handers/RangeHander/Mods/target_priortize.gd" id="5_qpa72"]
+[ext_resource type="Script" path="res://src/Handers/RangeHander/Mods/shooter.gd" id="6_ue826"]
+[ext_resource type="Script" path="res://src/Handers/RangeHander/Mods/random.gd" id="7_0cv51"]
+[ext_resource type="Script" path="res://src/Handers/HealthHander/HealthHander.gd" id="7_bbxmb"]
+[ext_resource type="Script" path="res://src/Handers/HealthHander/Mods/OnDeath.gd" id="8_rv2v7"]
+[ext_resource type="Script" path="res://src/Handers/HealthHander/Mods/OnHit.gd" id="9_cv3ic"]
+[ext_resource type="Script" path="res://src/Handers/HealthHander/Mods/OnHeal.gd" id="10_4txwu"]
+[ext_resource type="Script" path="res://src/Handers/HealthHander/Mods/HealthStorage.gd" id="11_pybb6"]
+[ext_resource type="Script" path="res://src/Handers/HealthHander/Mods/HealthDetect.gd" id="12_84p4k"]
+[ext_resource type="Script" path="res://src/Handers/DeploymentHander/DeploymentHander.gd" id="13_v15yt"]
+[ext_resource type="Script" path="res://src/Handers/DeploymentHander/Mods/troop_deploy.gd" id="17_6n60h"]
+[ext_resource type="Script" path="res://src/Handers/DeploymentHander/Mods/troop_insert.gd" id="18_aelnd"]
+[ext_resource type="Script" path="res://src/Handers/DeploymentHander/Mods/troop_spawner.gd" id="19_hd2w7"]
+[ext_resource type="Script" path="res://src/Handers/DeploymentHander/Mods/troop_storage.gd" id="20_jju34"]
+
+[node name="Tower_Dummy" type="Node2D"]
+script = ExtResource("1_vfvuu")
+
+[node name="DrawMod" type="Node2D" parent="."]
+script = ExtResource("2_d3gmb")
+
+[node name="ResourceDistributor" type="Node" parent="."]
+script = ExtResource("2_ifak3")
+
+[node name="RangeHander" type="Node" parent="ResourceDistributor"]
+script = ExtResource("3_7yaid")
+
+[node name="Random" type="Node" parent="ResourceDistributor/RangeHander" node_paths=PackedStringArray("draw_mod")]
+script = ExtResource("7_0cv51")
+draw_mod = NodePath("../../../DrawMod")
+
+[node name="Shooter" type="Node" parent="ResourceDistributor/RangeHander" node_paths=PackedStringArray("priortize", "random")]
+script = ExtResource("6_ue826")
+priortize = NodePath("../Priortize")
+random = NodePath("../Random")
+
+[node name="ShootDisabler" type="Node" parent="ResourceDistributor/RangeHander" node_paths=PackedStringArray("finder", "shooter")]
+script = ExtResource("4_mmp0f")
+finder = NodePath("../TargetFinder")
+shooter = NodePath("../Shooter")
+check_delay = 1.0
+
+[node name="TargetFinder" type="Node" parent="ResourceDistributor/RangeHander"]
+script = ExtResource("4_8oicg")
+
+[node name="Priortize" type="Node" parent="ResourceDistributor/RangeHander" node_paths=PackedStringArray("finder")]
+script = ExtResource("5_qpa72")
+finder = NodePath("../TargetFinder")
+
+[node name="HealthHander" type="Node" parent="ResourceDistributor"]
+script = ExtResource("7_bbxmb")
+
+[node name="OnDeath" type="Node" parent="ResourceDistributor/HealthHander"]
+script = ExtResource("8_rv2v7")
+
+[node name="OnHit" type="Node" parent="ResourceDistributor/HealthHander"]
+script = ExtResource("9_cv3ic")
+
+[node name="OnHeal" type="Node" parent="ResourceDistributor/HealthHander"]
+script = ExtResource("10_4txwu")
+
+[node name="HealthStorage" type="Node" parent="ResourceDistributor/HealthHander" node_paths=PackedStringArray("onDeath", "onHit", "onHeal")]
+script = ExtResource("11_pybb6")
+onDeath = NodePath("../OnDeath")
+onHit = NodePath("../OnHit")
+onHeal = NodePath("../OnHeal")
+
+[node name="HealthDetect" type="Node" parent="ResourceDistributor/HealthHander" node_paths=PackedStringArray("health_storage")]
+script = ExtResource("12_84p4k")
+health_storage = NodePath("../HealthStorage")
+
+[node name="DeploymentHander" type="Node" parent="ResourceDistributor"]
+script = ExtResource("13_v15yt")
+
+[node name="Troop_Deploy" type="Node" parent="ResourceDistributor/DeploymentHander" node_paths=PackedStringArray("storage")]
+script = ExtResource("17_6n60h")
+storage = NodePath("../Troop_Storage")
+
+[node name="Troop_Insert" type="Node" parent="ResourceDistributor/DeploymentHander" node_paths=PackedStringArray("storage")]
+script = ExtResource("18_aelnd")
+storage = NodePath("../Troop_Storage")
+
+[node name="Troop_Spawner" type="Node" parent="ResourceDistributor/DeploymentHander" node_paths=PackedStringArray("storage")]
+script = ExtResource("19_hd2w7")
+storage = NodePath("../Troop_Storage")
+
+[node name="Troop_Storage" type="Node" parent="ResourceDistributor/DeploymentHander"]
+script = ExtResource("20_jju34")
