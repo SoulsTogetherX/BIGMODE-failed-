@@ -30,13 +30,13 @@ class_name TroopInfo extends ResourceInfo
 			emit_changed();
 
 @export_group("Other")
-@export var carry_strength : float:
+@export var carry_strength : float = 1.:
 	set(val):
 		if carry_strength != val:
 			carry_strength = val;
 			emit_changed();
 
-@export var move_speed     : float:
+@export var move_speed     : float = 250.:
 	set(val):
 		if move_speed != val:
 			move_speed = val;

@@ -40,3 +40,4 @@ func get_id():
 
 func _init() -> void:
 	exit_pos = ShapeInfo.new();
+	troop_info = TroopInfo.new();

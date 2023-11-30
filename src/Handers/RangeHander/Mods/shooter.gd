@@ -41,11 +41,9 @@ func _on_cooldown() -> void:
 	var random : float = min(resource.shoot_speed * 0.1, 0.1);
 	await get_tree().create_timer(randf_range(0, random)).timeout;
 	
-	burst -= 1;
 	for i in burst:
 		_shoot_at(target.global_position);
 		target = priortize.get_target();
 		if target == null:
 			return;
-	_shoot_at(target.global_position);
 	
