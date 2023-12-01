@@ -4,6 +4,7 @@ class_name Troop extends CharacterBody2D
 signal changeHealth(delta : int);
 
 @onready var _resource_distributor : ResourceDistributor = $ResourceDistributor;
+@onready var _nav_unit             : GroupNavigation     = $nav_mod
 
 @export var type      : ResourceInfo.ALLEGIANCE;
 @export_group("Info")
@@ -23,6 +24,9 @@ func init(resouce : TroopInfo) -> void:
 		troopInfo = resouce;
 	
 	var arg_resources : Array[ResourceInfo] = [troopInfo.health];
+	
+	if _resource_distributor == null:
+		await ready;
 	_resource_distributor.init(self, arg_resources);
 
 func is_dead() -> bool:
@@ -30,3 +34,6 @@ func is_dead() -> bool:
 
 func get_type() -> ResourceInfo.ALLEGIANCE:
 	return type;
+
+func get_move_AI_simple() -> Vector2:
+	return _nav_unit.get_velocity_simple(troopInfo.move_speed);

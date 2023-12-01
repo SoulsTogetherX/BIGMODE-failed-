@@ -23,9 +23,12 @@ signal release_troops();
 			_resource_distributor.update();
 
 func _ready() -> void:
+	call_deferred("_tree_ready");
+
+func _tree_ready() -> void:
+	if get_tree().edited_scene_root == self:
+		return;
 	if tower_info == null:
-		if not get_parent() is Tower:
-			return;
 		tower_info = TowerInfo.new();
 	
 	if !Engine.is_editor_hint():

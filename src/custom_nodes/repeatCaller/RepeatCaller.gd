@@ -100,13 +100,12 @@ func _ready() -> void:
 	if interval > 0:
 		_timer_interval.wait_time = interval;
 	else:
-		_timer_interval.timeout.emit();
-		return;
+		_timer_interval.stop();
 	if delay > 0:
 		_timer_delay.wait_time = delay;
 	
-	if autostart:
-		start();
+	if !autostart:
+		stop();
 
 func _timeout() -> void:
 	timeout.emit();

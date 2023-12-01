@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://dn1cv1frhlw8i"]
+
+[ext_resource type="Script" path="res://src/objects/Troops/Spawner/Troop_Spawner.gd" id="1_5npeh"]
+
+[node name="TroopSpawner" type="Node2D"]
+position = Vector2(32, 32)
+script = ExtResource("1_5npeh")

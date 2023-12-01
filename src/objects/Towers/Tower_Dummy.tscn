@@ -10,9 +10,9 @@
 [ext_resource type="Script" path="res://src/Handers/RangeHander/Mods/shooter.gd" id="6_ue826"]
 [ext_resource type="Script" path="res://src/Handers/RangeHander/Mods/random.gd" id="7_0cv51"]
 [ext_resource type="Script" path="res://src/Handers/HealthHander/HealthHander.gd" id="7_bbxmb"]
-[ext_resource type="Script" path="res://src/Handers/HealthHander/Mods/OnDeath.gd" id="8_rv2v7"]
 [ext_resource type="Script" path="res://src/Handers/HealthHander/Mods/OnHit.gd" id="9_cv3ic"]
 [ext_resource type="Script" path="res://src/Handers/HealthHander/Mods/OnHeal.gd" id="10_4txwu"]
+[ext_resource type="Script" path="res://src/Handers/HealthHander/Mods/OnDeath_Tower.gd" id="11_md45t"]
 [ext_resource type="Script" path="res://src/Handers/HealthHander/Mods/HealthStorage.gd" id="11_pybb6"]
 [ext_resource type="Script" path="res://src/Handers/HealthHander/Mods/HealthDetect.gd" id="12_84p4k"]
 [ext_resource type="Script" path="res://src/Handers/DeploymentHander/DeploymentHander.gd" id="13_v15yt"]
@@ -59,7 +59,7 @@ finder = NodePath("../TargetFinder")
 script = ExtResource("7_bbxmb")
 
 [node name="OnDeath" type="Node" parent="ResourceDistributor/HealthHander"]
-script = ExtResource("8_rv2v7")
+script = ExtResource("11_md45t")
 
 [node name="OnHit" type="Node" parent="ResourceDistributor/HealthHander"]
 script = ExtResource("9_cv3ic")

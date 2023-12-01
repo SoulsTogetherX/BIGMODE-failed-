@@ -19,6 +19,7 @@ config/icon="res://assets/sprites/icon/icon.svg"
 
 TimeManager="*res://global/TimeManager.gd"
 GridController="*res://global/GridController.gd"
+MoveController="*res://global/MoveController.gd"
 
 [input]
 
@@ -60,5 +61,6 @@ select={
 
 [rendering]
 
+textures/canvas_textures/default_texture_filter=0
 renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"
