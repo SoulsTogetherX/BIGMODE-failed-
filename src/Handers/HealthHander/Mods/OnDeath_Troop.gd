@@ -8,4 +8,6 @@ func update() -> void:
 	pass;
 
 func execute_action() -> void:
-	actor.visible = false;
+	$"../../../AnimationPlayer".play("ded");
+	await $"../../../AnimationPlayer".animation_finished;
+	actor.queue_free();

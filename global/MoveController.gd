@@ -43,7 +43,9 @@ func add_to_acces(nav_unit : GroupNavigation) -> void:
 	_GROUP_ACCESS[nav_unit] = -1;
 
 func remove_from_access(nav_unit : GroupNavigation) -> void:
+	_remove_unit(nav_unit);
 	_GROUP_ACCESS.erase(nav_unit);
+	
 
 func is_moving(nav_unit : GroupNavigation) -> bool:
 	var idx = _GROUP_ACCESS[nav_unit];

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bbgpeghlrster"
-path="res://.godot/imported/Attack Tower.png-137586b32222f8e94b330b12fa0639ac.ctex"
+uid="uid://pe4qs8a5q1lf"
+path="res://.godot/imported/holder.png-8947b08c5f555fcd7fca09f152233a57.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/Towers/Attack_Tower/Attack Tower.png"
-dest_files=["res://.godot/imported/Attack Tower.png-137586b32222f8e94b330b12fa0639ac.ctex"]
+source_file="res://assets/sprites/Towers/tower_holders/holder.png"
+dest_files=["res://.godot/imported/holder.png-8947b08c5f555fcd7fca09f152233a57.ctex"]
 
 [params]
 

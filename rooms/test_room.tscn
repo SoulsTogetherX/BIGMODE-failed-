@@ -1,4 +1,4 @@
-[gd_scene load_steps=53 format=3 uid="uid://gvirkiccxqe7"]
+[gd_scene load_steps=54 format=3 uid="uid://gvirkiccxqe7"]
 
 [ext_resource type="PackedScene" uid="uid://dthm4qwpxsph" path="res://src/objects/player/player.tscn" id="1_mn4xc"]
 [ext_resource type="Texture2D" uid="uid://leplbw4mtbax" path="res://assets/sprites/tile_maps/ground.png" id="2_due6i"]
@@ -9,6 +9,7 @@
 [ext_resource type="Script" path="res://assets/resources/script/TroopInfo.gd" id="7_vd8ta"]
 [ext_resource type="Script" path="res://assets/resources/script/SubResources/ShapeInfo.gd" id="8_fo0qg"]
 [ext_resource type="PackedScene" uid="uid://cfq5tun8e7vn" path="res://src/objects/Towers/ShieldWizard/ShieldWizard_Tower.tscn" id="9_kn031"]
+[ext_resource type="PackedScene" uid="uid://dm5p3d4yhk5j3" path="res://src/objects/Towers/Holder/TowerHolder.tscn" id="10_2tafv"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_p7rnk"]
 vertices = PackedVector2Array(-5.375, 16, -5.125, -5.5, 16, -6, 16, 16)
@@ -735,7 +736,7 @@ target_type = SubResource("Resource_ss1eu")
 
 [sub_resource type="Resource" id="Resource_78olw"]
 script = ExtResource("6_kv3b1")
-max_health = 100
+max_health = 10
 health_regeneration = 0
 
 [sub_resource type="Resource" id="Resource_rjpyb"]
@@ -743,7 +744,8 @@ script = ExtResource("7_vd8ta")
 health = SubResource("Resource_78olw")
 delta = SubResource("Resource_nuxx7")
 carry_strength = 1.0
-move_speed = 250.0
+move_speed = 50.0
+friction = 300.0
 
 [sub_resource type="Resource" id="Resource_pyyhd"]
 script = ExtResource("8_fo0qg")
@@ -774,3 +776,12 @@ grid_position = Vector2i(1, -2)
 [node name="SW_Tower" parent="." instance=ExtResource("9_kn031")]
 position = Vector2(-352, -96)
 grid_position = Vector2i(-6, -2)
+snap_runtime = true
+
+[node name="E_Tower" parent="." instance=ExtResource("10_2tafv")]
+y_sort_enabled = true
+position = Vector2(480, -42)
+_tower = ExtResource("9_kn031")
+_sprite_turn = true
+grid_position = Vector2i(7, -1)
+grid_offset = Vector2(0, -10)

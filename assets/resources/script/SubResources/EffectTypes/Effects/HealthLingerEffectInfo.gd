@@ -33,14 +33,11 @@ func trigger_effect(actor : Node2D) -> void:
 	caller.interval = time;
 	caller.delay = delay;
 	caller.autostart = true;
-	caller.end_func = (
-		func():
-			actor.current_effects &= ~EFFECT_TYPE.BURN;
-			particle.queue_free()
-			caller.queue_free();\
-		);
-	caller.call_func = (
-		func(change : Signal, delta : int):
+	caller.end_func = _linger_func(actor);
+	caller.call_func = _linger_func.bind(actor, delta);
+	actor.add_child(caller);
+
+func _linger_func(actor : Node2D) -> Callable:
+	return (func(change : Signal, delta : int):
 			change.emit(delta);\
 		).bind(actor.changeHealth, delta);
-	actor.add_child(caller);

@@ -2,16 +2,18 @@ extends State
 
 @export var _idle : State;
 
+var animate : AnimationPlayer;
 var _stopped : bool;
 
 func get_id():
 	return "walk";
 
 func state_ready() -> void:
-	pass;
+	animate = _actor.get_node("AnimationPlayer");
 
 func enter() -> void:
-	_actor.get_node("AnimationPlayer").play("walking");
+	animate.play("walking");
+	animate.advance(randf() * 0.8);
 	_stopped = false;
 
 func exit() -> void:
@@ -21,8 +23,7 @@ func process_input(_event: InputEvent) -> State:
 	return null;
 
 func process_physics(_delta: float) -> State:
-	_actor.velocity = await _actor.get_move_AI_avoidence();
-	_actor.do_move();
+	_actor.do_move_AI_avoidence();
 	return null;
 
 func process_frame(_delta: float) -> State:

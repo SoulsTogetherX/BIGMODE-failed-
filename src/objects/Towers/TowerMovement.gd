@@ -1,8 +1,8 @@
 @tool
 class_name Tower extends GridObject
 
-@onready var _main_sprite : Sprite2D = $main;
-@onready var tower        : Node2D   = $Tower_Dummy;
+@onready var main_sprite : Sprite2D = $main;
+@onready var tower       : Node2D   = $Tower_Dummy;
 
 signal changeHealth(delta : int);
 
@@ -10,7 +10,8 @@ var current_effects : int = 0;
 
 func _ready() -> void:
 	super();
-	adjust_size(_main_sprite);
+	print("hello")
+	adjust_size(main_sprite);
 	
 	changeHealth.connect(
 		func(delta : int):
@@ -37,6 +38,12 @@ func release_troops() -> void:
 
 func regenerate() -> void:
 	pass;
+
+func get_health() -> int:
+	return tower.tower_info.health.current_health;
+
+func get_health_percent() -> int:
+	return tower.tower_info.health.get_health_ratio();
 
 func get_type() -> ResourceInfo.ALLEGIANCE:
 	return tower.get_type();

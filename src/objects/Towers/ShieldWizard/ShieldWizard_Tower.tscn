@@ -1,7 +1,7 @@
-[gd_scene load_steps=29 format=3 uid="uid://cfq5tun8e7vn"]
+[gd_scene load_steps=44 format=3 uid="uid://cfq5tun8e7vn"]
 
 [ext_resource type="Script" path="res://src/objects/Towers/TowerMovement.gd" id="1_2wist"]
-[ext_resource type="Texture2D" uid="uid://8vydchicmxhc" path="res://assets/sprites/Towers/Defence_Tower/Defense Tower.png" id="2_cgws8"]
+[ext_resource type="Texture2D" uid="uid://b33jbv18p6uu0" path="res://assets/sprites/Towers/Attack_Tower/Attack_Tower_SpriteSheet.png" id="2_lpq73"]
 [ext_resource type="PackedScene" uid="uid://bvt6hpbcvtjl7" path="res://src/objects/Towers/Tower_Dummy.tscn" id="3_vx3eb"]
 [ext_resource type="Script" path="res://assets/resources/script/SubResources/DeploymentInfo.gd" id="4_v7wf2"]
 [ext_resource type="Script" path="res://assets/resources/script/SubResources/HealthInfo.gd" id="5_buc2h"]
@@ -13,6 +13,150 @@
 [ext_resource type="Script" path="res://assets/resources/script/SubResources/RangeInfo.gd" id="9_uc7a1"]
 [ext_resource type="Script" path="res://assets/resources/script/TowerInfo.gd" id="10_6yetg"]
 [ext_resource type="Script" path="res://assets/resources/script/SubResources/AttackTypes/SpreadTargetInfo.gd" id="10_sg67f"]
+[ext_resource type="PackedScene" uid="uid://dwd6xoankwggj" path="res://src/objects/Projectile/Types/FireProjectile/Fireball.tscn" id="12_d7bq3"]
+[ext_resource type="Script" path="res://assets/resources/script/SubResources/ProjectileInfo/ArcProjectileInfo.gd" id="13_1tv2s"]
+[ext_resource type="Script" path="res://src/custom_nodes/StateMachine/state_overhead.gd" id="16_2mwri"]
+[ext_resource type="Script" path="res://src/custom_nodes/StateMachine/state_machine.gd" id="17_l8cu0"]
+[ext_resource type="Script" path="res://src/objects/Towers/States/Building.gd" id="18_341q1"]
+[ext_resource type="Script" path="res://src/objects/Towers/States/Attacking.gd" id="19_pnex8"]
+[ext_resource type="Script" path="res://src/objects/Towers/States/Idle.gd" id="20_rty5x"]
+[ext_resource type="Script" path="res://src/objects/Towers/States/Dragged.gd" id="21_bdyge"]
+[ext_resource type="Script" path="res://src/objects/Towers/States/Carried.gd" id="22_do3ma"]
+
+[sub_resource type="Animation" id="Animation_1fah5"]
+resource_name = "ded"
+
+[sub_resource type="Animation" id="Animation_8ni77"]
+resource_name = "building"
+length = 1.5
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("main:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.1, 1.2, 1.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0.5, 0.5),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("main:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1.2, 1.3, 1.4),
+"transitions": PackedFloat32Array(1, 2, 0.5, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1, 1), Vector2(1.21875, 0.859375), Vector2(1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("main:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(1.2, 1.3, 1.4),
+"transitions": PackedFloat32Array(2, 0.5, 1),
+"update": 0,
+"values": [Vector2(-2, -27.5), Vector2(-2, -24), Vector2(-2, -27.5)]
+}
+
+[sub_resource type="Animation" id="Animation_8ygef"]
+resource_name = "attacking"
+length = 0.8
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("main:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.3, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [14, 15, 16, 17]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("main:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.2, 0.3, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(-2, -27.5), Vector2(-2, -32.5), Vector2(-2, -27.5)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("main:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.2, 0.3, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(1.21875, 1), Vector2(1.21875, 1.14063), Vector2(1.21875, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_oilr8"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("main:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("main:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1.21875, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("main:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-2, -27.5)]
+}
+
+[sub_resource type="Animation" id="Animation_75ese"]
+resource_name = "idle"
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_7j75o"]
+_data = {
+"RESET": SubResource("Animation_oilr8"),
+"attacking": SubResource("Animation_8ygef"),
+"building": SubResource("Animation_8ni77"),
+"ded": SubResource("Animation_1fah5"),
+"idle": SubResource("Animation_75ese")
+}
 
 [sub_resource type="Resource" id="Resource_pgt6i"]
 script = ExtResource("9_37fgh")
@@ -41,6 +185,7 @@ health = SubResource("Resource_3uos2")
 delta = SubResource("Resource_hlinn")
 carry_strength = 1.0
 move_speed = 250.0
+friction = 300.0
 
 [sub_resource type="Resource" id="Resource_nflim"]
 script = ExtResource("4_v7wf2")
@@ -75,6 +220,12 @@ gizmo_extents = 10.0
 script = ExtResource("9_5le0t")
 priority = 2
 
+[sub_resource type="Resource" id="Resource_kqpti"]
+script = ExtResource("13_1tv2s")
+arc_height = 200.0
+continous_collition_checking = false
+projectile = ExtResource("12_d7bq3")
+
 [sub_resource type="Resource" id="Resource_1k1ph"]
 script = ExtResource("9_37fgh")
 offset = Vector2(0, -8)
@@ -89,6 +240,7 @@ max_scatter = 10
 scatter = 10
 burst = 0.0
 shoot_speed = 1.2
+projectile = SubResource("Resource_kqpti")
 projectile_speed = 0.7
 fire_pos = SubResource("Resource_t37ck")
 target_pos = SubResource("Resource_1k1ph")
@@ -101,17 +253,21 @@ deployment = SubResource("Resource_nflim")
 domain_range = 500
 weight = 10
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_gyxl7"]
-radius = 6.0
-height = 46.0
-
-[node name="SW_Tower" type="Node2D"]
+[node name="SW_Tower" type="Node2D" groups=["Tower", "WorkingTower"]]
 position = Vector2(32, 32)
 script = ExtResource("1_2wist")
 
 [node name="main" type="Sprite2D" parent="."]
-position = Vector2(-2, -32)
-texture = ExtResource("2_cgws8")
+position = Vector2(-2, -27.5)
+scale = Vector2(1.21875, 1)
+texture = ExtResource("2_lpq73")
+hframes = 14
+vframes = 2
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_7j75o")
+}
 
 [node name="Tower_Dummy" parent="." instance=ExtResource("3_vx3eb")]
 tower_info = SubResource("Resource_t6y44")
@@ -121,11 +277,23 @@ position = Vector2(0, -2.5)
 scale = Vector2(1, 0.7)
 radius = 25.0
 
-[node name="StaticBody2D" type="StaticBody2D" parent="."]
-collision_layer = 2
-collision_mask = 0
+[node name="StateOverhead" type="Node" parent="."]
+script = ExtResource("16_2mwri")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
-position = Vector2(0, -3)
-rotation = 1.5708
-shape = SubResource("CapsuleShape2D_gyxl7")
+[node name="StateMachine" type="Node" parent="StateOverhead"]
+script = ExtResource("17_l8cu0")
+
+[node name="Building" type="Node" parent="StateOverhead/StateMachine"]
+script = ExtResource("18_341q1")
+
+[node name="Attacking" type="Node" parent="StateOverhead/StateMachine"]
+script = ExtResource("19_pnex8")
+
+[node name="Idle" type="Node" parent="StateOverhead/StateMachine"]
+script = ExtResource("20_rty5x")
+
+[node name="Dragged" type="Node" parent="StateOverhead/StateMachine"]
+script = ExtResource("21_bdyge")
+
+[node name="Carried" type="Node" parent="StateOverhead/StateMachine"]
+script = ExtResource("22_do3ma")

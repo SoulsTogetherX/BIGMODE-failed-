@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://dm5p3d4yhk5j3"]
+
+[ext_resource type="Script" path="res://src/objects/Towers/Holder/TowerHolder.gd" id="1_g6nvo"]
+[ext_resource type="Texture2D" uid="uid://pe4qs8a5q1lf" path="res://assets/sprites/Towers/tower_holders/holder.png" id="2_sj740"]
+
+[node name="E_Tower" type="Node2D" groups=["Tower", "TowerHolder"]]
+position = Vector2(32, 32)
+script = ExtResource("1_g6nvo")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.65, 0.65)
+texture = ExtResource("2_sj740")

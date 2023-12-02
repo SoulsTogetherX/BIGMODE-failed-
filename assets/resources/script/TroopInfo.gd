@@ -42,6 +42,12 @@ class_name TroopInfo extends ResourceInfo
 			move_speed = val;
 			emit_changed();
 
+@export var friction     : float = 300.:
+	set(val):
+		if friction != val:
+			friction = val;
+			emit_changed();
+
 func get_id():
 	return "TroopInfo";
 

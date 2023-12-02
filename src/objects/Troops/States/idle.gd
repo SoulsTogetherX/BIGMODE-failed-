@@ -2,16 +2,17 @@ extends State
 
 @export var _walk : State;
 
+var animate : AnimationPlayer;
 var _walking : bool;
 
 func get_id():
 	return "idle";
 
 func state_ready() -> void:
-	pass;
+	animate = _actor.get_node("AnimationPlayer");
 
 func enter() -> void:
-	_actor.get_node("AnimationPlayer").play("idle");
+	animate.play("idle");
 	_walking = false;
 
 func exit() -> void:

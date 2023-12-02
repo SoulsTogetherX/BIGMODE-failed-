@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dflbbr5cmum4r"
-path="res://.godot/imported/Attack Tower Being Built.png-fd44ec6eb6fdc8be95f1889dc04feab5.ctex"
+uid="uid://b33jbv18p6uu0"
+path="res://.godot/imported/Attack_Tower_SpriteSheet.png-85d1e4bc91c88083b1231ff1533534ab.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/Towers/Attack_Tower/Attack Tower Being Built.png"
-dest_files=["res://.godot/imported/Attack Tower Being Built.png-fd44ec6eb6fdc8be95f1889dc04feab5.ctex"]
+source_file="res://assets/sprites/Towers/Attack_Tower/Attack_Tower_SpriteSheet.png"
+dest_files=["res://.godot/imported/Attack_Tower_SpriteSheet.png-85d1e4bc91c88083b1231ff1533534ab.ctex"]
 
 [params]
 

@@ -8,6 +8,14 @@ var _grid_position : Vector2i = Vector2i(0, 0);
 	set(val):
 		_set_position(val);
 
+@export var grid_offset : Vector2 = Vector2(0, 0):
+	get:
+		return grid_offset;
+	set(val):
+		grid_offset = val.clamp(-GridControl.GRID_SIZE * 0.5, GridControl.GRID_SIZE * 0.5);
+		print(grid_offset)
+		_set_position(_grid_position);
+
 @export var snap_runtime : bool = false:
 	set(val):
 		snap_runtime = val;
@@ -37,7 +45,7 @@ func _set_position(pos : Vector2i) -> void:
 
 func _reset_position() -> void:
 	set_notify_transform(false);
-	global_position = GridControl.get_center_at_tile(_grid_position);
+	global_position = GridControl.get_center_at_tile(_grid_position) + grid_offset;
 	set_notify_transform(true);
 
 func _ready() -> void:

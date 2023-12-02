@@ -282,6 +282,7 @@ func add_units(nav_units : Array[GroupNavigation]) -> void:
 		_get_positions();
 
 func remove_units(nav_units : Array[GroupNavigation]) -> void:
+	print("yes")
 	_group.filter(_filter.bind(nav_units));
 
 func _filter(val : Variant, nav_units : Array[GroupNavigation]) -> bool:

@@ -3,7 +3,7 @@ extends GridObject
 
 var temp_group : Array[GroupNavigation];
 
-@export var type      : ResourceInfo.ALLEGIANCE;
+@export var type : ResourceInfo.ALLEGIANCE;
 
 @export_group("Info")
 @export var troop_info : TroopInfo:
@@ -75,11 +75,14 @@ func _ready() -> void:
 		_caller.interval = -1;
 	add_child(_caller)
 	
+	if MoveController.get_parent() == null:
+		await MoveController.ready;
 	MoveController.set_formation(NavigationInfo.FORMATION_SHAPE.CIRCLE);
 
 func _tree_ready() -> void:
 	if get_tree().edited_scene_root == self:
 		return;
+	
 	if troop_info == null:
 		troop_info = TroopInfo.new();
 	if spawn_shape == null:
@@ -92,6 +95,11 @@ func _tree_ready() -> void:
 
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("select"):
+		var new : Array[GroupNavigation] = [];
+		for t in temp_group:
+			if is_instance_valid(t):
+				new.append(t);
+		temp_group = new;
 		MoveController.move_group(temp_group, get_global_mouse_position())
 
 static var troop = preload("res://src/objects/Troops/Dummy_Troop.tscn");
