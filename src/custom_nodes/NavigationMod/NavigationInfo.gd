@@ -270,12 +270,16 @@ func _create_positions_triangle(x_inc : float = 10.0, y_inc : float = 10.0, tip_
 
 func add_unit(nav_unit : GroupNavigation) -> void:
 	_group.append(nav_unit);
+	if _group.size() > _positions.size() || (_formation == FORMATION_SHAPE.CIRCLE && _formation_args[2]):
+		_get_positions();
 
 func remove_unit(nav_unit : GroupNavigation) -> void:
 	_group.erase(nav_unit);
 
 func add_units(nav_units : Array[GroupNavigation]) -> void:
 	_group.append_array(nav_units);
+	if _group.size() > _positions.size() || (_formation == FORMATION_SHAPE.CIRCLE && _formation_args[2]):
+		_get_positions();
 
 func remove_units(nav_units : Array[GroupNavigation]) -> void:
 	_group.filter(_filter.bind(nav_units));
@@ -308,5 +312,5 @@ func update() -> void:
 	if _flow != FLOW_TYPE.RUNNING:
 		return;
 	
-	for i in _group.size():
-		_group[i].target_position = _target + _positions[i];
+	for nav_unit in _group:
+		nav_unit.target_position = nav_unit.target_position;

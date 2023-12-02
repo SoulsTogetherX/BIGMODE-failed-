@@ -1,10 +1,7 @@
 class_name GroupNavigation extends NavigationAgent2D
 
 signal stopped_moving;
-
 signal start_moving(target);
-signal start_moving_pos(target : Vector2);
-signal start_moving_purse(target : Node2D);
 
 var _is_moving : bool = false;
 
@@ -49,6 +46,15 @@ func get_velocity_simple(spd : float) -> Vector2:
 			stop();
 		else:
 			return _actor.to_local(get_next_path_position()).normalized() * spd;
+	return Vector2.ZERO;
+
+func get_avoidence_velocity(spd : float) -> Vector2:
+	if _is_moving:
+		if auto_stop && check_for_stop():
+			stop();
+		else:
+			velocity = _actor.to_local(get_next_path_position()).normalized() * spd;
+			return await velocity_computed;
 	return Vector2.ZERO;
 
 func check_for_stop() -> bool:

@@ -21,6 +21,10 @@ TimeManager="*res://global/TimeManager.gd"
 GridController="*res://global/GridController.gd"
 MoveController="*res://global/MoveController.gd"
 
+[display]
+
+window/stretch/mode="viewport"
+
 [input]
 
 left={

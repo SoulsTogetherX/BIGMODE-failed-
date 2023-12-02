@@ -1,13 +1,11 @@
-[gd_scene load_steps=31 format=3 uid="uid://cfq5tun8e7vn"]
+[gd_scene load_steps=29 format=3 uid="uid://cfq5tun8e7vn"]
 
 [ext_resource type="Script" path="res://src/objects/Towers/TowerMovement.gd" id="1_2wist"]
-[ext_resource type="Texture2D" uid="uid://cani00sl0u13o" path="res://assets/sprites/icon/icon.svg" id="2_am2j3"]
+[ext_resource type="Texture2D" uid="uid://8vydchicmxhc" path="res://assets/sprites/Towers/Defence_Tower/Defense Tower.png" id="2_cgws8"]
 [ext_resource type="PackedScene" uid="uid://bvt6hpbcvtjl7" path="res://src/objects/Towers/Tower_Dummy.tscn" id="3_vx3eb"]
 [ext_resource type="Script" path="res://assets/resources/script/SubResources/DeploymentInfo.gd" id="4_v7wf2"]
 [ext_resource type="Script" path="res://assets/resources/script/SubResources/HealthInfo.gd" id="5_buc2h"]
 [ext_resource type="Script" path="res://assets/resources/script/SubResources/HealthDeltaInfo.gd" id="6_6djh0"]
-[ext_resource type="Script" path="res://assets/resources/script/SubResources/ProjectileInfo/ArcProjectileInfo.gd" id="8_5m2o3"]
-[ext_resource type="PackedScene" uid="uid://dwd6xoankwggj" path="res://src/objects/Projectile/Types/FireProjectile/Fireball.tscn" id="8_v0ybg"]
 [ext_resource type="Script" path="res://assets/resources/script/SubResources/AttackTypes/SingleTargetInfo.gd" id="8_yaqav"]
 [ext_resource type="Script" path="res://assets/resources/script/SubResources/PriorityInfo.gd" id="9_5le0t"]
 [ext_resource type="Script" path="res://assets/resources/script/SubResources/ShapeInfo.gd" id="9_37fgh"]
@@ -77,12 +75,6 @@ gizmo_extents = 10.0
 script = ExtResource("9_5le0t")
 priority = 2
 
-[sub_resource type="Resource" id="Resource_b5xeb"]
-script = ExtResource("8_5m2o3")
-arc_height = 200.0
-continous_collition_checking = false
-projectile = ExtResource("8_v0ybg")
-
 [sub_resource type="Resource" id="Resource_1k1ph"]
 script = ExtResource("9_37fgh")
 offset = Vector2(0, -8)
@@ -97,7 +89,6 @@ max_scatter = 10
 scatter = 10
 burst = 0.0
 shoot_speed = 1.2
-projectile = SubResource("Resource_b5xeb")
 projectile_speed = 0.7
 fire_pos = SubResource("Resource_t37ck")
 target_pos = SubResource("Resource_1k1ph")
@@ -110,13 +101,31 @@ deployment = SubResource("Resource_nflim")
 domain_range = 500
 weight = 10
 
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_gyxl7"]
+radius = 6.0
+height = 46.0
+
 [node name="SW_Tower" type="Node2D"]
 position = Vector2(32, 32)
 script = ExtResource("1_2wist")
 
 [node name="main" type="Sprite2D" parent="."]
-scale = Vector2(0.5, 0.5)
-texture = ExtResource("2_am2j3")
+position = Vector2(-2, -32)
+texture = ExtResource("2_cgws8")
 
 [node name="Tower_Dummy" parent="." instance=ExtResource("3_vx3eb")]
 tower_info = SubResource("Resource_t6y44")
+
+[node name="NavigationObstacle2D" type="NavigationObstacle2D" parent="."]
+position = Vector2(0, -2.5)
+scale = Vector2(1, 0.7)
+radius = 25.0
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+collision_layer = 2
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(0, -3)
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_gyxl7")

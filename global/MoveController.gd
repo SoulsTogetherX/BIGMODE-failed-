@@ -76,6 +76,7 @@ func move_unit(nav_unit : GroupNavigation, target) -> bool:
 	nav_unit.target_position = nav_info.target;
 	
 	nav_info.start();
+	nav_unit._start(target);
 	
 	return true;
 
@@ -122,7 +123,8 @@ func _move_group(nav_units : Array[GroupNavigation], target) -> NavigationInfo:
 	
 	for nav_unit in nav_units:
 		_GROUP_ACCESS[nav_unit] = idx;
-		nav_unit.target_position = nav_info.target;
+		nav_unit.target_position = target;
+		nav_unit._start(target);
 		
 	return nav_info;
 

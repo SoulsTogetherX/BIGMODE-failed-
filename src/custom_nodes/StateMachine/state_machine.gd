@@ -48,7 +48,7 @@ func process_input(event: InputEvent) -> void:
 ## Calls [method State.process_physics] on the running [State] in similar usage as
 ## [member Node._physics_process].
 func process_physics(delta: float) -> void:
-	var new_state = _current_state.process_physics(delta);
+	var new_state = await _current_state.process_physics(delta);
 	if new_state:
 		_change_state(new_state);
 

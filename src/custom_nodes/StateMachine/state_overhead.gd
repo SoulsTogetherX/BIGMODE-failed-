@@ -66,7 +66,7 @@ func _unhandled_input(event: InputEvent) -> void:
 func _physics_process(delta: float) -> void:
 	for machine in _state_machines.values():
 		if machine:
-			machine.process_physics(delta);
+			await machine.process_physics(delta);
 
 func _process(delta: float) -> void:
 	for machine in _state_machines.values():

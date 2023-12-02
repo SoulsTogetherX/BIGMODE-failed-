@@ -1,5 +1,9 @@
 extends State
 
+@export var _walk : State;
+
+var _walking : bool;
+
 func get_id():
 	return "idle";
 
@@ -7,10 +11,11 @@ func state_ready() -> void:
 	pass;
 
 func enter() -> void:
-	_actor.toggle_nav(false);
+	_actor.get_node("AnimationPlayer").play("idle");
+	_walking = false;
 
 func exit() -> void:
-	_actor.toggle_nav(true);
+	pass
 
 func process_input(_event: InputEvent) -> State:
 	return null;
@@ -19,4 +24,9 @@ func process_physics(_delta: float) -> State:
 	return null;
 
 func process_frame(_delta: float) -> State:
+	if _walking:
+		return _walk;
 	return null;
+
+func _on_nav_mod_start_moving(_target) -> void:
+	_walking = true;
