@@ -1,0 +1,22 @@
+[gd_scene load_steps=5 format=3 uid="uid://biofeadjjk4d8"]
+
+[ext_resource type="Script" path="res://rooms/Mouse.gd" id="1_soyea"]
+[ext_resource type="Script" path="res://src/custom_nodes/state_machine/state_overhead.gd" id="2_428vl"]
+[ext_resource type="Script" path="res://src/custom_nodes/state_machine/state_machine.gd" id="3_raiyr"]
+[ext_resource type="Script" path="res://Movement.gd" id="4_24ifp"]
+
+[node name="Mouse" type="Node2D"]
+script = ExtResource("1_soyea")
+
+[node name="StateOverhead" type="Node" parent="." node_paths=PackedStringArray("_actor")]
+script = ExtResource("2_428vl")
+_usesActor = true
+_actor = NodePath("StateMachine")
+
+[node name="StateMachine" type="Node" parent="StateOverhead" node_paths=PackedStringArray("starting_state")]
+script = ExtResource("3_raiyr")
+_name_id = "Mouse"
+starting_state = NodePath("Movement")
+
+[node name="Movement" type="Node" parent="StateOverhead/StateMachine"]
+script = ExtResource("4_24ifp")
